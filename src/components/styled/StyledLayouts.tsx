@@ -9,3 +9,10 @@ export const StyledHeader = styled.header`
   height: 400px;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 `;
+
+export const Main = styled.main`
+  max-width: 800px;
+  min-height: 100vh;
+  margin: auto;
+  margin-top: 48px;
+`;
