@@ -7,7 +7,7 @@ interface IDropDownProps {
 export const StyledSearchBar = styled.div`
   position: relative;
   top: 120px;
-  width: 50%;
+  width: 35%;
   height: 270px;
   margin: auto;
   border-radius: 5px;
@@ -23,7 +23,7 @@ export const StyledClickArea = styled.div`
 `;
 
 export const StyledDropDown = styled.div<IDropDownProps>`
-  width: 150px;
+  width: 180px;
   min-height: 30px;
   margin-bottom: 10px;
   background-color: #f2f2f2;

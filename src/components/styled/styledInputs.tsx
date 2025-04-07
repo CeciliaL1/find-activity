@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledDateInput = styled.input.attrs({
   type: "date",
 })`
-  width: 150px;
+  width: 180px;
   height: 30px;
   border: none;
   outline: none;

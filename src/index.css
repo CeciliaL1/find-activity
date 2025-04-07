@@ -1,6 +1,22 @@
 * {
-    margin: 0;
-    box-sizing: border-box;
-    background-color: #F2F2F2;
-    font-family: "Itim", cursive;
+  margin: 0;
+  box-sizing: border-box;
+
+  font-family: "Itim", cursive;
+}
+body {
+  background-color: #f2f2f2;
+}
+
+h4 {
+  margin-bottom: 12px;
+}
+
+div.range-slider .range-slider__range {
+  background-color: #4c7958;
+}
+div.range-slider .range-slider__thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #4c7958;
 }
