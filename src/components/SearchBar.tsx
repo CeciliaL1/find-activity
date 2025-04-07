@@ -1,3 +1,4 @@
+import { DatePicker } from "./DatePicker";
 import { DropDown } from "./DropDown";
 import { StyledSearchBar } from "./styled/StyledSearchBar";
 import { StyledWrapper } from "./styled/StyledWrapper";
@@ -8,7 +9,7 @@ export const SearchBar = () => {
       <StyledSearchBar>
         <StyledWrapper direction="row" padding="30px">
           <StyledWrapper direction="column" gap="20px">
-            <DropDown text="Datum" />
+            <DatePicker />
             <DropDown text="Plats" />
           </StyledWrapper>
         </StyledWrapper>
