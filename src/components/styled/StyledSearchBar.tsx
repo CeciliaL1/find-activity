@@ -8,7 +8,7 @@ export const StyledSearchBar = styled.div`
   position: relative;
   top: 120px;
   width: 50%;
-  height: 250px;
+  height: 270px;
   margin: auto;
   border-radius: 5px;
   background-color: #d9d9d9;
@@ -26,7 +26,7 @@ export const StyledDropDown = styled.div<IDropDownProps>`
   width: 150px;
   min-height: 30px;
   margin-bottom: 10px;
-  background-color: #d9d9d9;
+  background-color: #f2f2f2;
   color: black;
   margin: auto;
   display: flex;
