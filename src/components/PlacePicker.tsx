@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { StyledClickArea, StyledDropDown } from "./styled/StyledSearchBar";
 
-interface IDropDownSection {
-  text: string;
-}
-export const DropDown = ({ text }: IDropDownSection) => {
+export const PlacePicker = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggleOpen = () => {
@@ -16,7 +13,7 @@ export const DropDown = ({ text }: IDropDownSection) => {
       <StyledDropDown isopen={isOpen.toString()}>
         <StyledClickArea onClick={handleToggleOpen}>
           <div className="text-section">
-            <h3>{text}</h3>
+            <h3>Plats</h3>
             {isOpen ? (
               <i className="fa-solid fa-caret-up"></i>
             ) : (
