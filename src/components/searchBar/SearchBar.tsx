@@ -13,7 +13,6 @@ export const SearchBar = () => {
         <StyledWrapper direction="row" padding="30px" gap="60px">
           <StyledWrapper direction="column" gap="20px">
             <DatePicker />
-            <PlacePicker />
 
             <SliderPicker
               min={0}

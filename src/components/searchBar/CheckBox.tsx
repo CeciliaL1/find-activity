@@ -21,7 +21,6 @@ export const Checkbox = () => {
     const updatedChecks = [...checks];
     updatedChecks[index].value = !updatedChecks[index].value;
     setChecks(updatedChecks);
-    console.log(updatedChecks);
   };
 
   return (
