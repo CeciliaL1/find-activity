@@ -23,7 +23,7 @@ export const StyledClickArea = styled.div`
 `;
 
 export const StyledDropDown = styled.div<IDropDownProps>`
-  width: 180px;
+  width: 200px;
   min-height: 30px;
   margin-bottom: 10px;
   background-color: #f2f2f2;

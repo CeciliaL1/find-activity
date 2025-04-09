@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyledClickArea, StyledDropDown } from "./styled/StyledSearchBar";
+import { StyledClickArea, StyledDropDown } from "../styled/StyledSearchBar";
 
 export const PlacePicker = () => {
   const [isOpen, setIsOpen] = useState(false);

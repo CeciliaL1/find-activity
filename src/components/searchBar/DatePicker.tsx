@@ -1,4 +1,4 @@
-import { StyledDateInput } from "./styled/styledInputs";
+import { StyledDateInput } from "../styled/StyledInputs";
 
 export const DatePicker = () => {
   return (

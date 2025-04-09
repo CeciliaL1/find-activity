@@ -1,4 +1,4 @@
-import { StyledSearchButton } from "./styled/StyledButtons";
+import { StyledSearchButton } from "../styled/StyledButtons";
 
 export const SearchButton = () => {
   return (

@@ -2,7 +2,7 @@ import {
   StyledCheckboxContainer,
   StyledCheckbox,
   StyledLabel,
-} from "./styled/StyledInputs";
+} from "../styled/StyledInputs";
 
 interface ICheckboxProps {
   text: string;

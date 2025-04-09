@@ -3,8 +3,8 @@ import { DatePicker } from "./DatePicker";
 import { PlacePicker } from "./PlacePicker";
 import { SearchButton } from "./SearchButton";
 import { SliderPicker } from "./SliderPicker";
-import { StyledSearchBar } from "./styled/StyledSearchBar";
-import { StyledWrapper } from "./styled/StyledWrapper";
+import { StyledSearchBar } from "../styled/StyledSearchBar";
+import { StyledWrapper } from "../styled/StyledWrapper";
 
 export const SearchBar = () => {
   return (
