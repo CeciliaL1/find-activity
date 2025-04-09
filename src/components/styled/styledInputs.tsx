@@ -31,5 +31,4 @@ export const StyledLabel = styled.label`
   width: 200px;
   color: black;
   cursor: pointer;
-  user-select: none;
 `;

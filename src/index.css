@@ -20,3 +20,10 @@ div.range-slider .range-slider__thumb {
   height: 20px;
   background-color: #4c7958;
 }
+ul {
+  padding: 0;
+}
+li {
+  list-style: none;
+  margin-bottom: 10px;
+}

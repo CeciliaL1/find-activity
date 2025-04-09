@@ -1,28 +1,46 @@
 import {
   StyledCheckboxContainer,
   StyledCheckbox,
-  StyledLabel,
 } from "../styled/StyledInputs";
+import { useState } from "react";
 
-interface ICheckboxProps {
-  text: string;
+interface IChecks {
+  label: string;
+  value: boolean;
 }
 
-export const Checkbox = ({ text }: ICheckboxProps) => {
+export const Checkbox = () => {
+  const [checks, setChecks] = useState<IChecks[]>([
+    { label: "Kolla vädret", value: false },
+    { label: "Kollektivtrafik", value: false },
+    { label: "Kiosk/Café/Restaurang", value: false },
+    { label: "Grillmöjligheter", value: false },
+  ]);
+
+  const handleChange = (index: number) => {
+    const updatedChecks = [...checks];
+    updatedChecks[index].value = !updatedChecks[index].value;
+    setChecks(updatedChecks);
+    console.log(updatedChecks);
+  };
+
   return (
     <>
-      <StyledCheckboxContainer>
-        <StyledCheckbox type="checkbox" id="presentation" checked={false} />
-        <StyledLabel htmlFor="presentation">
-          <span
-            onClick={(e: React.MouseEvent<HTMLSpanElement>) => {
-              console.log(e);
-            }}
-          >
-            {text}
-          </span>
-        </StyledLabel>
-      </StyledCheckboxContainer>
+      <ul>
+        {checks.map((check, index) => (
+          <li key={index}>
+            <StyledCheckboxContainer>
+              <StyledCheckbox
+                type="checkbox"
+                id={check.label}
+                checked={check.value}
+                onChange={() => handleChange(index)}
+              />
+              <label htmlFor={check.label}>{check.label}</label>
+            </StyledCheckboxContainer>
+          </li>
+        ))}
+      </ul>
     </>
   );
 };

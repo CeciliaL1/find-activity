@@ -24,10 +24,8 @@ export const SearchBar = () => {
             <SliderPicker min={0} max={100} type="age" text="Åldersintervall" />
           </StyledWrapper>
           <StyledWrapper direction="column" gap="10px">
-            <Checkbox text="Kolla vädret" />
-            <Checkbox text="Kollektivtrafik" />
-            <Checkbox text="Kiosk/café/restaurang" />
-            <Checkbox text="Grillmöjligheter" />
+            <Checkbox />
+
             <SearchButton />
           </StyledWrapper>
         </StyledWrapper>
