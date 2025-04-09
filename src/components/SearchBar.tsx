@@ -1,6 +1,7 @@
 import { Checkbox } from "./CheckBox";
 import { DatePicker } from "./DatePicker";
 import { PlacePicker } from "./PlacePicker";
+import { SearchButton } from "./SearchButton";
 import { SliderPicker } from "./SliderPicker";
 import { StyledSearchBar } from "./styled/StyledSearchBar";
 import { StyledWrapper } from "./styled/StyledWrapper";
@@ -27,6 +28,7 @@ export const SearchBar = () => {
             <Checkbox text="Kollektivtrafik" />
             <Checkbox text="Kiosk/café/restaurang" />
             <Checkbox text="Grillmöjligheter" />
+            <SearchButton />
           </StyledWrapper>
         </StyledWrapper>
       </StyledSearchBar>
