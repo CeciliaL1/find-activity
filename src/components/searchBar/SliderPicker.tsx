@@ -11,6 +11,11 @@ interface ISliderProps {
 
 export const SliderPicker = ({ text, type, min, max }: ISliderProps) => {
   const [value, setValue] = useState<number[]>([min, max]);
+
+  const handleSlider = (e) => {
+    setValue(e);
+    console.log(type, value);
+  };
   return (
     <>
       <div>
@@ -21,7 +26,9 @@ export const SliderPicker = ({ text, type, min, max }: ISliderProps) => {
           min={min}
           max={max}
           defaultValue={[min, max]}
-          onInput={setValue}
+          onInput={(e) => {
+            handleSlider(e);
+          }}
           className="custom-slider"
         />
       </div>
