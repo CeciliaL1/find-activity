@@ -1,3 +1,4 @@
+import { Checkbox } from "./CheckBox";
 import { DatePicker } from "./DatePicker";
 import { PlacePicker } from "./PlacePicker";
 import { SliderPicker } from "./SliderPicker";
@@ -8,7 +9,7 @@ export const SearchBar = () => {
   return (
     <>
       <StyledSearchBar>
-        <StyledWrapper direction="row" padding="30px">
+        <StyledWrapper direction="row" padding="30px" gap="60px">
           <StyledWrapper direction="column" gap="20px">
             <DatePicker />
             <PlacePicker />
@@ -20,6 +21,12 @@ export const SearchBar = () => {
               text="Prisintervall"
             />
             <SliderPicker min={0} max={100} type="age" text="Åldersintervall" />
+          </StyledWrapper>
+          <StyledWrapper direction="column" gap="10px">
+            <Checkbox text="Kolla vädret" />
+            <Checkbox text="Kollektivtrafik" />
+            <Checkbox text="Kiosk/café/restaurang" />
+            <Checkbox text="Grillmöjligheter" />
           </StyledWrapper>
         </StyledWrapper>
       </StyledSearchBar>
