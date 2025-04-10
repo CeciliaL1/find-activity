@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 
@@ -14,7 +14,7 @@ export const SliderPicker = ({ text, type, min, max }: ISliderProps) => {
 
   const handleSlider = (range: number[]) => {
     setValue(range);
-    console.log(type, value);
+    localStorage.setItem(type, JSON.stringify(value));
   };
   return (
     <>

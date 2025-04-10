@@ -1,13 +1,9 @@
+import { IChecks } from "../../models/ISearch";
 import {
   StyledCheckboxContainer,
   StyledCheckbox,
 } from "../styled/StyledInputs";
 import { useState } from "react";
-
-interface IChecks {
-  label: string;
-  value: boolean;
-}
 
 export const Checkbox = () => {
   const [checks, setChecks] = useState<IChecks[]>([
@@ -21,6 +17,8 @@ export const Checkbox = () => {
     const updatedChecks = [...checks];
     updatedChecks[index].value = !updatedChecks[index].value;
     setChecks(updatedChecks);
+
+    localStorage.setItem("checks", JSON.stringify(checks));
   };
 
   return (
