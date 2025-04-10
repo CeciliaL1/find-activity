@@ -2,7 +2,11 @@ import { StyledDateInput } from "../styled/StyledInputs";
 
 export const DatePicker = () => {
   const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    localStorage.setItem("date", JSON.stringify(e.target.valueAsDate));
+    if (!e.target.valueAsDate) {
+      return;
+    }
+    const formattedDate = e.target.valueAsDate.toDateString();
+    localStorage.setItem("date", JSON.stringify(formattedDate));
   };
   return (
     <>
