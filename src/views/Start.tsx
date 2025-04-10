@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import { SearchContext } from "../context/SearchContext";
+
 export const Start = () => {
+  const { search } = useContext(SearchContext);
+
+  console.log(search);
   return (
     <>
       <h3>
