@@ -1,7 +1,7 @@
 export interface ISearch {
   age: number[];
   checks: IChecks[];
-  date: number;
+  date: string;
   price: number[];
 }
 
