@@ -5,9 +5,12 @@ import { StyledSearchButton } from "../styled/StyledButtons";
 export const SearchButton = () => {
   const handleSearch = () => {
     const age: number[] = getLocalStorage<number[]>("age");
-    const date: number = getLocalStorage<number>("date");
+    let date: string = getLocalStorage<string>("date");
     const price: number[] = getLocalStorage<number[]>("price");
     const checks: IChecks[] = getLocalStorage<IChecks[]>("checks");
+    if (!date || Array.isArray(date) || isNaN(Number(date))) {
+      date = new Date().toDateString();
+    }
 
     console.log("age", age);
     console.log("date", date);
