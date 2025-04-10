@@ -1,13 +1,13 @@
 import { StyledDateInput } from "../styled/StyledInputs";
 
 export const DatePicker = () => {
-  const handleDate = (e) => {
+  const handleDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.valueAsNumber);
   };
   return (
     <>
       <StyledDateInput
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           handleDate(e);
         }}
       />
