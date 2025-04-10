@@ -1,6 +1,6 @@
 import { Checkbox } from "./CheckBox";
 import { DatePicker } from "./DatePicker";
-import { PlacePicker } from "./PlacePicker";
+
 import { SearchButton } from "./SearchButton";
 import { SliderPicker } from "./SliderPicker";
 import { StyledSearchBar } from "../styled/StyledSearchBar";
