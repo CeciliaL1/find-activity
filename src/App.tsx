@@ -11,7 +11,10 @@ function App() {
     date: "",
     price: [0, 1000],
     checks: [],
+    location: { lat: 60.1282, lng: 18.6435 },
+    mapZoom: 4,
   });
+
   return (
     <>
       <SearchContext.Provider value={{ search, searchDispatch }}>
