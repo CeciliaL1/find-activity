@@ -7,6 +7,7 @@ import { SearchReducer } from "./reducer/SearchReducer";
 
 function App() {
   const [search, searchDispatch] = useReducer(SearchReducer, {
+    search: false,
     age: [0, 100],
     date: "",
     price: [0, 1000],

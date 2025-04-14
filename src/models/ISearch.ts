@@ -1,4 +1,5 @@
 export interface ISearch {
+  search: boolean;
   age: number[];
   checks: IChecks[];
   date: string;

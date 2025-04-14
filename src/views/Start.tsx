@@ -1,15 +1,59 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { StyledWrapper } from "../components/styled/StyledWrapper";
+
+interface IRequest {
+  location: google.maps.LatLng;
+  radius: number;
+  types: string[];
+}
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
+
+  const [places, setPlaces] = useState<any[]>([]);
+  const mapRef = useRef<google.maps.Map | null>(null);
 
   const center = {
     lat: search.location.lat,
     lng: search.location.lng,
   };
+
+  const onMapLoad = (map: google.maps.Map) => {
+    mapRef.current = map;
+  };
+
+  useEffect(() => {
+    if (search.search && mapRef.current && window.google) {
+      const service = new window.google.maps.places.PlacesService(
+        mapRef.current
+      );
+
+      const typesToSearch: string[] = search.checks
+        .filter((check) => check.value === true)
+        .map((check) => check.label);
+
+      const request: google.maps.places.PlaceSearchRequest = {
+        location: new window.google.maps.LatLng(center.lat, center.lng),
+        radius: 5000,
+        type: "park",
+      };
+
+      service.nearbySearch(request, (results, status) => {
+        if (
+          status === window.google.maps.places.PlacesServiceStatus.OK &&
+          results
+        ) {
+          setPlaces(results);
+          console.log(results);
+        } else {
+          console.error("Places search failed:", status);
+        }
+      });
+    }
+  }, [search.search, search.checks, center.lat, center.lng]);
+
   return (
     <>
       <h3>
@@ -19,12 +63,27 @@ export const Start = () => {
       </h3>
 
       <StyledWrapper direction="row" gap="30px">
-        <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}>
+        <LoadScript
+          googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
+          libraries={["places"]}
+        >
           <GoogleMap
             mapContainerStyle={{ height: "400px", width: "50%" }}
             center={center}
             zoom={search.mapZoom}
-          />
+            onLoad={onMapLoad}
+          >
+            {places.map((place, index) => (
+              <Marker
+                key={index}
+                position={{
+                  lat: place.geometry.location.lat(),
+                  lng: place.geometry.location.lng(),
+                }}
+                title={place.name}
+              />
+            ))}
+          </GoogleMap>
         </LoadScript>
       </StyledWrapper>
     </>

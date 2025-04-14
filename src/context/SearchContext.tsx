@@ -16,6 +16,7 @@ export enum SearchEnum {
 
 export const SearchContext = createContext<ISearchContext>({
   search: {
+    search: false,
     age: [0, 100],
     price: [0, 1000],
     date: "",

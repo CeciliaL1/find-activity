@@ -37,6 +37,7 @@ export const SearchButton = () => {
     }
 
     const newSearch = {
+      search: true,
       age,
       date,
       price,
@@ -44,7 +45,7 @@ export const SearchButton = () => {
       location: location,
       mapZoom: 11,
     };
-    console.log(location);
+
     searchDispatch({ type: SearchEnum.SEARCH, payload: newSearch });
   };
   return (
