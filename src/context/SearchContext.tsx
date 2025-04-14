@@ -25,6 +25,8 @@ export const SearchContext = createContext<ISearchContext>({
         value: true,
       },
     ],
+    location: { lat: 0, lng: 0 },
+    mapZoom: 0,
   },
   searchDispatch: () => {},
 });
