@@ -9,6 +9,15 @@ interface IRequest {
   types: string[];
 }
 
+/**
+ * Make arrays with suitible activities from searchword table on google to match the types in places API
+ * When searchbutton is pressed. - check the weather with weather API on choosed date.
+ * Based on the weather insert an array in the types in API.
+ *  present the activiteies in the overwiev and make them clickable
+ *
+ *
+ */
+
 export const Start = () => {
   const { search } = useContext(SearchContext);
 
@@ -34,10 +43,10 @@ export const Start = () => {
         .filter((check) => check.value === true)
         .map((check) => check.label);
 
-      const request: google.maps.places.PlaceSearchRequest = {
+      const request: IRequest = {
         location: new window.google.maps.LatLng(center.lat, center.lng),
-        radius: 5000,
-        type: "park",
+        radius: 50000,
+        types: ["shopping_mall"],
       };
 
       service.nearbySearch(request, (results, status) => {
