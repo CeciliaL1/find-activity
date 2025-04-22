@@ -3,6 +3,8 @@ import { SearchContext } from "../context/SearchContext";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { StyledWrapper } from "../components/styled/StyledWrapper";
 import { getWeather } from "../helperfunctions/getWeather";
+import { WeatherContext, WeatherEnum } from "../context/WeatherContext";
+import { p } from "framer-motion/client";
 
 interface IRequest {
   location: google.maps.LatLng;
@@ -22,6 +24,8 @@ interface IRequest {
 export const Start = () => {
   const { search } = useContext(SearchContext);
 
+  const { weather, weatherDispatch } = useContext(WeatherContext);
+
   const [places, setPlaces] = useState<any[]>([]);
   const mapRef = useRef<google.maps.Map | null>(null);
 
@@ -38,7 +42,10 @@ export const Start = () => {
     if (search.search && mapRef.current && window.google) {
       const getWeatherData = async () => {
         const response = await getWeather(center.lat, center.lng);
-        console.log(response.forecastDays);
+        weatherDispatch({
+          type: WeatherEnum.ADDED,
+          payload: response,
+        });
       };
       getWeatherData();
     }
@@ -69,14 +76,17 @@ export const Start = () => {
         }
       });
     }
-  }, [search.search, search.checks, center.lat, center.lng]);
+  }, [search.search, search.checks, center.lat, center.lng, weatherDispatch]);
 
   return (
     <>
       <h3>
-        Den [datum] ska det [väder]. Dessa aktiviteter är anpassade efter din
-        filtrering. Längre ner kan du se alla aktiviteter möjliga [datum] -
-        [plats]
+        Den [datum] ska det vara{" "}
+        {weather.forecastDays.map((w) => (
+          <p>{w.maxTemperature.degrees}</p>
+        ))}
+        . Dessa aktiviteter är anpassade efter din filtrering. Längre ner kan du
+        se alla aktiviteter möjliga [datum] - [plats]
       </h3>
 
       <StyledWrapper direction="row" gap="30px">

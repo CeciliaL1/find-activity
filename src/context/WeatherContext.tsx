@@ -3,7 +3,7 @@ import { IForecastDays } from "../models/IWeather";
 
 interface IWeatherContext {
   weather: IForecastDays;
-  wheatherDispatch: Dispatch<IActionWeather>;
+  weatherDispatch: Dispatch<IActionWeather>;
 }
 export interface IActionWeather {
   type: WeatherEnum;
@@ -55,5 +55,5 @@ export const WeatherContext = createContext<IWeatherContext>({
       },
     ],
   },
-  wheatherDispatch: () => {},
+  weatherDispatch: () => {},
 });
