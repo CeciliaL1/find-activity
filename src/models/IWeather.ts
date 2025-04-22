@@ -1,5 +1,5 @@
 export interface IForecastDays {
-  foreCastDays: IWeather[];
+  forecastDays: IWeather[];
 }
 
 interface IWeather {

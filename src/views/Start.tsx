@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { StyledWrapper } from "../components/styled/StyledWrapper";
+import { getWeather } from "../helperfunctions/getWeather";
 
 interface IRequest {
   location: google.maps.LatLng;
@@ -34,6 +35,13 @@ export const Start = () => {
   };
 
   useEffect(() => {
+    if (search.search && mapRef.current && window.google) {
+      const getWeatherData = async () => {
+        const response = await getWeather(center.lat, center.lng);
+        console.log(response.forecastDays);
+      };
+      getWeatherData();
+    }
     if (search.search && mapRef.current && window.google) {
       const service = new window.google.maps.places.PlacesService(
         mapRef.current
