@@ -5,6 +5,7 @@ import { StyledWrapper } from "../components/styled/StyledWrapper";
 import { getWeather } from "../helperfunctions/getWeather";
 import { WeatherContext, WeatherEnum } from "../context/WeatherContext";
 import { getActivitiesSun } from "../helperfunctions/getActivitiesSun";
+import { getActivitiesRain } from "../helperfunctions/getActivitiesRain";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
@@ -43,7 +44,7 @@ export const Start = () => {
         if (precipitation > 30) {
           fetchSunPlaces(service, center, setPlaces);
         } else if (precipitation < 50) {
-          console.log("rain");
+          fetchRainPlaces(service, center, setPlaces);
         }
       };
 
@@ -60,6 +61,25 @@ export const Start = () => {
   ) => {
     try {
       const results = await getActivitiesSun(service, center);
+      setPlaces((prev) => {
+        const newResults = results.filter(
+          (place) => !prev.some((p) => p.place_id === place.place_id)
+        );
+        return [...prev, ...newResults];
+      });
+    } catch (error) {
+      console.error("Error fetching activities:", error);
+    }
+  };
+  const fetchRainPlaces = async (
+    service: google.maps.places.PlacesService,
+    center: { lat: number; lng: number },
+    setPlaces: React.Dispatch<
+      React.SetStateAction<google.maps.places.PlaceResult[]>
+    >
+  ) => {
+    try {
+      const results = await getActivitiesRain(service, center);
       setPlaces((prev) => {
         const newResults = results.filter(
           (place) => !prev.some((p) => p.place_id === place.place_id)
