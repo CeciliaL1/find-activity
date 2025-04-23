@@ -1,24 +1,21 @@
-import { RouterProvider } from "react-router";
-import "./App.css";
-import { Router } from "./Router";
-import { SearchContext } from "./context/SearchContext";
-import {  useReducer } from "react";
-import { SearchReducer } from "./reducer/SearchReducer";
-import { WeatherContext } from "./context/WeatherContext";
-import { WeatherReducer } from "./reducer/WeatherReducer";
+import { createContext, Dispatch } from "react";
+import { IForecastDays } from "../models/IWeather";
 
-function App() {
-  const [search, searchDispatch] = useReducer(SearchReducer, {
-    search: false,
-    age: [0, 100],
-    date: "",
-    price: [0, 1000],
-    checks: [],
-    location: { lat: 60.1282, lng: 18.6435 },
-    mapZoom: 4,
-  });
+interface IWeatherContext {
+  weather: IForecastDays;
+  weatherDispatch: Dispatch<IActionWeather>;
+}
+export interface IActionWeather {
+  type: WeatherEnum;
+  payload: IForecastDays;
+}
 
-  const [weather, weatherDispatch] = useReducer(WeatherReducer, {
+export enum WeatherEnum {
+  ADDED,
+}
+
+export const WeatherContext = createContext<IWeatherContext>({
+  weather: {
     forecastDays: [
       {
         dayTimeForecast: {
@@ -57,17 +54,6 @@ function App() {
         sunEvents: { sunriseTime: "", sunsetTime: "" },
       },
     ],
-  });
-
-  return (
-    <>
-      <SearchContext.Provider value={{ search, searchDispatch }}>
-        <WeatherContext.Provider value={{ weather, weatherDispatch }}>
-          <RouterProvider router={Router}></RouterProvider>
-        </WeatherContext.Provider>
-      </SearchContext.Provider>
-    </>
-  );
-}
-
-export default App;
+  },
+  weatherDispatch: () => {},
+});

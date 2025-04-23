@@ -7,12 +7,16 @@ interface IDropDownProps {
 export const StyledSearchBar = styled.div`
   position: relative;
   top: 120px;
-  width: 35%;
+  width: 550px;
   height: 270px;
   margin: auto;
   border-radius: 5px;
   background-color: #d9d9d9;
   opacity: 0.9;
+
+  @media screen and (max-width: 500px) {
+    width: 350px;
+  }
 `;
 
 export const StyledClickArea = styled.div`

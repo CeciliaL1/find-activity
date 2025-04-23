@@ -1,4 +1,5 @@
 export interface ISearch {
+  search: boolean;
   age: number[];
   checks: IChecks[];
   date: string;
@@ -10,6 +11,7 @@ export interface ISearch {
 export interface IChecks {
   label: string;
   value: boolean;
+  searchWord: string;
 }
 
 export interface ILocation {
