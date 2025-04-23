@@ -4,21 +4,7 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { StyledWrapper } from "../components/styled/StyledWrapper";
 import { getWeather } from "../helperfunctions/getWeather";
 import { WeatherContext, WeatherEnum } from "../context/WeatherContext";
-
-const activitiesSun = [
-  "amusement_park",
-  "aquarium",
-  "book_store",
-  "bowling_alley",
-  "movie_theater",
-  "museum",
-  "shopping_mall",
-  "tourist_attraction",
-  "park",
-  "zoo",
-  "campground",
-  "town_square",
-];
+import { getActivitiesSun } from "../helperfunctions/getActivitiesSun";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
@@ -50,52 +36,22 @@ export const Start = () => {
       };
       getWeatherData();
 
-      const nearbyRequest = {
-        location: new window.google.maps.LatLng(center.lat, center.lng),
-        radius: 30000,
-        types: activitiesSun,
-      };
-
-      service.nearbySearch(nearbyRequest, (results, status) => {
-        if (
-          status === window.google.maps.places.PlacesServiceStatus.OK &&
-          results
-        ) {
-          setPlaces((prev) => {
-            const newResults = results.filter(
-              (place) => !prev.some((p) => p.place_id === place.place_id)
-            );
-            return [...prev, ...newResults];
-          });
-        } else {
-          console.error("Nearby search failed:", status);
-        }
-      });
-
-      const natureReserveRequest = {
-        query: "nature reserve",
-        location: new window.google.maps.LatLng(center.lat, center.lng),
-        radius: 20000,
-        keyword: "nature reserve",
-      };
-
-      service.textSearch(natureReserveRequest, (results, status) => {
-        if (
-          status === window.google.maps.places.PlacesServiceStatus.OK &&
-          results
-        ) {
-          setPlaces((prev) => {
-            const newResults = results.filter(
-              (place) => !prev.some((p) => p.place_id === place.place_id)
-            );
-            return [...prev, ...newResults];
-          });
-        } else {
-          console.error("Text search for nature reserves failed:", status);
-        }
+      const results = getActivitiesSun(service, center);
+      setPlaces((prev) => {
+        const newResults = results.filter(
+          (place) => !prev.some((p) => p.place_id === place.place_id)
+        );
+        return [...prev, ...newResults];
       });
     }
-  }, [search.search, search.checks, center.lat, center.lng, weatherDispatch]);
+  }, [
+    search.search,
+    search.checks,
+    center.lat,
+    center.lng,
+    weatherDispatch,
+    center,
+  ]);
 
   return (
     <>
