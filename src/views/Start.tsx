@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { StyledWrapper } from "../components/styled/StyledWrapper";
@@ -12,14 +12,17 @@ export const Start = () => {
   const [places, setPlaces] = useState<google.maps.places.PlaceResult[]>([]);
   const mapRef = useRef<google.maps.Map | null>(null);
 
-  const center = {
-    lat: search.location.lat,
-    lng: search.location.lng,
-  };
-
   const onMapLoad = (map: google.maps.Map) => {
     mapRef.current = map;
   };
+
+  const center = useMemo(
+    () => ({
+      lat: search.location.lat,
+      lng: search.location.lng,
+    }),
+    [search.location.lat, search.location.lng]
+  );
 
   useEffect(() => {
     if (search.search && mapRef.current && window.google) {
@@ -33,25 +36,40 @@ export const Start = () => {
           type: WeatherEnum.ADDED,
           payload: response,
         });
-      };
-      getWeatherData();
+        const precipitation =
+          response?.forecastDays?.[0]?.dayTimeForecast?.precipitation
+            .probability.percent ?? 100;
 
-      const results = getActivitiesSun(service, center);
+        if (precipitation > 30) {
+          fetchSunPlaces(service, center, setPlaces);
+        } else if (precipitation < 50) {
+          console.log("rain");
+        }
+      };
+
+      getWeatherData();
+    }
+  }, [search.search, center, weatherDispatch]);
+
+  const fetchSunPlaces = async (
+    service: google.maps.places.PlacesService,
+    center: { lat: number; lng: number },
+    setPlaces: React.Dispatch<
+      React.SetStateAction<google.maps.places.PlaceResult[]>
+    >
+  ) => {
+    try {
+      const results = await getActivitiesSun(service, center);
       setPlaces((prev) => {
         const newResults = results.filter(
           (place) => !prev.some((p) => p.place_id === place.place_id)
         );
         return [...prev, ...newResults];
       });
+    } catch (error) {
+      console.error("Error fetching activities:", error);
     }
-  }, [
-    search.search,
-    search.checks,
-    center.lat,
-    center.lng,
-    weatherDispatch,
-    center,
-  ]);
+  };
 
   return (
     <>

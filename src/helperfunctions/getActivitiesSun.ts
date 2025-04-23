@@ -1,4 +1,9 @@
-export const getActivitiesSun = (service, center) => {
+import { ILocation } from "../models/ISearch";
+
+export const getActivitiesSun = (
+  service: google.maps.places.PlacesService,
+  center: ILocation
+): Promise<google.maps.places.PlaceResult[]> => {
   const activitiesSun = [
     "amusement_park",
     "aquarium",
@@ -20,17 +25,6 @@ export const getActivitiesSun = (service, center) => {
     types: activitiesSun,
   };
 
-  service.nearbySearch(nearbyRequest, (results, status) => {
-    if (
-      status === window.google.maps.places.PlacesServiceStatus.OK &&
-      results
-    ) {
-      return results;
-    } else {
-      console.error("Nearby search failed:", status);
-    }
-  });
-
   const natureReserveRequest = {
     query: "nature reserve",
     location: new window.google.maps.LatLng(center.lat, center.lng),
@@ -38,19 +32,31 @@ export const getActivitiesSun = (service, center) => {
     keyword: "nature reserve",
   };
 
-  service.textSearch(natureReserveRequest, (results, status) => {
-    if (
-      status === window.google.maps.places.PlacesServiceStatus.OK &&
-      results
-    ) {
-      setPlaces((prev) => {
-        const newResults = results.filter(
-          (place) => !prev.some((p) => p.place_id === place.place_id)
-        );
-        return [...prev, ...newResults];
+  return new Promise((resolve, reject) => {
+    const allResults: google.maps.places.PlaceResult[] = [];
+
+    service.nearbySearch(nearbyRequest, (results, status) => {
+      if (
+        status === window.google.maps.places.PlacesServiceStatus.OK &&
+        results
+      ) {
+        allResults.push(...results);
+      } else {
+        console.error("Nearby search failed:", status);
+      }
+
+      service.textSearch(natureReserveRequest, (textResults, textStatus) => {
+        if (
+          textStatus === window.google.maps.places.PlacesServiceStatus.OK &&
+          textResults
+        ) {
+          allResults.push(...textResults);
+        } else {
+          console.error("Text search for nature reserves failed:", textStatus);
+        }
+
+        resolve(allResults);
       });
-    } else {
-      console.error("Text search for nature reserves failed:", status);
-    }
+    });
   });
 };
