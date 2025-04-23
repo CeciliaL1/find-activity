@@ -55,12 +55,12 @@ export const Start = () => {
 
       const typesToSearch: string[] = search.checks
         .filter((check) => check.value === true)
-        .map((check) => check.label);
+        .map((check) => check.searchWord);
 
       const request: IRequest = {
         location: new window.google.maps.LatLng(center.lat, center.lng),
         radius: 50000,
-        types: ["shopping_mall"],
+        types: typesToSearch,
       };
 
       service.nearbySearch(request, (results, status) => {

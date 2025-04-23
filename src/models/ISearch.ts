@@ -11,6 +11,7 @@ export interface ISearch {
 export interface IChecks {
   label: string;
   value: boolean;
+  searchWord: string;
 }
 
 export interface ILocation {
