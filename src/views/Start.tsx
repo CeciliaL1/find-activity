@@ -4,7 +4,6 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { StyledWrapper } from "../components/styled/StyledWrapper";
 import { getWeather } from "../helperfunctions/getWeather";
 import { WeatherContext, WeatherEnum } from "../context/WeatherContext";
-import { p } from "framer-motion/client";
 
 interface IRequest {
   location: google.maps.LatLng;
@@ -26,7 +25,7 @@ export const Start = () => {
 
   const { weather, weatherDispatch } = useContext(WeatherContext);
 
-  const [places, setPlaces] = useState<any[]>([]);
+  const [places, setPlaces] = useState<google.maps.places.PlaceResult[]>([]);
   const mapRef = useRef<google.maps.Map | null>(null);
 
   const center = {
@@ -81,12 +80,10 @@ export const Start = () => {
   return (
     <>
       <h3>
-        Den [datum] ska det vara{" "}
-        {weather.forecastDays.map((w) => (
-          <p>{w.maxTemperature.degrees}</p>
-        ))}
-        . Dessa aktiviteter är anpassade efter din filtrering. Längre ner kan du
-        se alla aktiviteter möjliga [datum] - [plats]
+        Den {weather.forecastDays[0].interval.startTime} ska det vara{" "}
+        {weather.forecastDays[0].maxTemperature.degrees}. Dessa aktiviteter är
+        anpassade efter din filtrering. Längre ner kan du se alla aktiviteter
+        möjliga [datum] - [plats]
       </h3>
 
       <StyledWrapper direction="row" gap="30px">
@@ -100,16 +97,21 @@ export const Start = () => {
             zoom={search.mapZoom}
             onLoad={onMapLoad}
           >
-            {places.map((place, index) => (
-              <Marker
-                key={index}
-                position={{
-                  lat: place.geometry.location.lat(),
-                  lng: place.geometry.location.lng(),
-                }}
-                title={place.name}
-              />
-            ))}
+            {places.map((place, index) => {
+              const location = place.geometry?.location;
+              if (!location) return null;
+
+              return (
+                <Marker
+                  key={index}
+                  position={{
+                    lat: location.lat(),
+                    lng: location.lng(),
+                  }}
+                  title={place.name}
+                />
+              );
+            })}
           </GoogleMap>
         </LoadScript>
       </StyledWrapper>

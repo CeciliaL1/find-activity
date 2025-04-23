@@ -7,7 +7,6 @@ import { useState } from "react";
 
 export const Checkbox = () => {
   const [checks, setChecks] = useState<IChecks[]>([
-    { label: "Kolla vädret", value: false },
     { label: "Kollektivtrafik", value: false },
     { label: "Kiosk/Café/Restaurang", value: false },
     { label: "Grillmöjligheter", value: false },

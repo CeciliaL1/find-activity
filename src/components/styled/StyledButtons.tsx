@@ -12,8 +12,14 @@ export const StyledSearchButton = styled.button`
   top: 60px;
   left: 70px;
   cursor: pointer;
+  border: solid 1px #4c7958;
 
   &:hover {
     background-color: #4c7958;
+  }
+
+  @media screen and (max-width: 500px) {
+    top: -16px;
+    left: 130px;
   }
 `;

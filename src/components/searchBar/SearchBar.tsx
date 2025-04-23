@@ -1,5 +1,4 @@
 import { Checkbox } from "./CheckBox";
-import { DatePicker } from "./DatePicker";
 
 import { SearchButton } from "./SearchButton";
 import { SliderPicker } from "./SliderPicker";
@@ -12,8 +11,6 @@ export const SearchBar = () => {
       <StyledSearchBar>
         <StyledWrapper direction="row" padding="30px" gap="60px">
           <StyledWrapper direction="column" gap="20px">
-            <DatePicker />
-
             <SliderPicker
               min={0}
               max={1000}
