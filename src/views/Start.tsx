@@ -5,26 +5,24 @@ import { StyledWrapper } from "../components/styled/StyledWrapper";
 import { getWeather } from "../helperfunctions/getWeather";
 import { WeatherContext, WeatherEnum } from "../context/WeatherContext";
 
-interface IRequest {
-  location: google.maps.LatLng;
-  radius: number;
-  types: string[];
-}
-
-/**
- * Make arrays with suitible activities from searchword table on google to match the types in places API
- * When searchbutton is pressed. - check the weather with weather API on choosed date.
- * Based on the weather insert an array in the types in API.
- *  present the activiteies in the overwiev and make them clickable
- *
- *
- */
+const activitiesSun = [
+  "amusement_park",
+  "aquarium",
+  "book_store",
+  "bowling_alley",
+  "movie_theater",
+  "museum",
+  "shopping_mall",
+  "tourist_attraction",
+  "park",
+  "zoo",
+  "campground",
+  "town_square",
+];
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
-
   const { weather, weatherDispatch } = useContext(WeatherContext);
-
   const [places, setPlaces] = useState<google.maps.places.PlaceResult[]>([]);
   const mapRef = useRef<google.maps.Map | null>(null);
 
@@ -39,6 +37,10 @@ export const Start = () => {
 
   useEffect(() => {
     if (search.search && mapRef.current && window.google) {
+      const service = new window.google.maps.places.PlacesService(
+        mapRef.current
+      );
+
       const getWeatherData = async () => {
         const response = await getWeather(center.lat, center.lng);
         weatherDispatch({
@@ -47,31 +49,49 @@ export const Start = () => {
         });
       };
       getWeatherData();
-    }
-    if (search.search && mapRef.current && window.google) {
-      const service = new window.google.maps.places.PlacesService(
-        mapRef.current
-      );
 
-      const typesToSearch: string[] = search.checks
-        .filter((check) => check.value === true)
-        .map((check) => check.searchWord);
-
-      const request: IRequest = {
+      const nearbyRequest = {
         location: new window.google.maps.LatLng(center.lat, center.lng),
-        radius: 50000,
-        types: typesToSearch,
+        radius: 30000,
+        types: activitiesSun,
       };
 
-      service.nearbySearch(request, (results, status) => {
+      service.nearbySearch(nearbyRequest, (results, status) => {
         if (
           status === window.google.maps.places.PlacesServiceStatus.OK &&
           results
         ) {
-          setPlaces(results);
-          console.log(results);
+          setPlaces((prev) => {
+            const newResults = results.filter(
+              (place) => !prev.some((p) => p.place_id === place.place_id)
+            );
+            return [...prev, ...newResults];
+          });
         } else {
-          console.error("Places search failed:", status);
+          console.error("Nearby search failed:", status);
+        }
+      });
+
+      const natureReserveRequest = {
+        query: "nature reserve",
+        location: new window.google.maps.LatLng(center.lat, center.lng),
+        radius: 20000,
+        keyword: "nature reserve",
+      };
+
+      service.textSearch(natureReserveRequest, (results, status) => {
+        if (
+          status === window.google.maps.places.PlacesServiceStatus.OK &&
+          results
+        ) {
+          setPlaces((prev) => {
+            const newResults = results.filter(
+              (place) => !prev.some((p) => p.place_id === place.place_id)
+            );
+            return [...prev, ...newResults];
+          });
+        } else {
+          console.error("Text search for nature reserves failed:", status);
         }
       });
     }
