@@ -1,3 +1,4 @@
+import { Rating } from "./Rating";
 import { StyledActivitiesWrapper, StyledWrapper } from "./styled/StyledWrapper";
 
 interface IActivities {
@@ -21,8 +22,7 @@ export const RenderActivities = ({ activities }: IActivities) => {
                 <img src={a.icon} alt={a.name} width="20px" height="20px" />
                 <h4>{a.name}</h4>
               </StyledWrapper>
-
-              <p>{a.rating}</p>
+              {a.rating ? <Rating rating={a.rating}></Rating> : ""}
             </div>
 
             <div>
