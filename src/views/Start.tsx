@@ -108,7 +108,14 @@ export const Start = () => {
           libraries={["places"]}
         >
           <GoogleMap
-            mapContainerStyle={{ height: "400px", width: "40%" }}
+            mapContainerStyle={{
+              height: "600px",
+              width: "45%",
+
+              position: "sticky",
+              top: "50px",
+              borderRadius: "5px",
+            }}
             center={center}
             zoom={search.mapZoom}
             onLoad={onMapLoad}

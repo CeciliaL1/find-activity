@@ -29,13 +29,13 @@ export const StyledActivitiesWrapper = styled.div<IActivitesWrapperProps>`
   display: flex;
   flex-direction: column;
   width: 550px;
-  border: 1px solid black;
+  border: 0.5 solid black;
   padding: 30px;
   justify-content: space-between;
   margin: 5px;
   border-radius: 5px;
   background-color: ${(props) => props.background + "50"};
-
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   a {
     color: black;
   }
@@ -45,4 +45,14 @@ export const StyledActivitiesWrapper = styled.div<IActivitesWrapperProps>`
       flex-direction: row;
     }
   }
+`;
+
+export const StarWrapper = styled.div<IWrapperProps>`
+  background-color: #9b9b9b;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: ${(props) => props.direction};
+  margin-bottom: 8px;
 `;
