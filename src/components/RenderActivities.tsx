@@ -12,11 +12,16 @@ export const RenderActivities = ({ activities }: IActivities) => {
   });
   return (
     <>
-      <StyledWrapper direction="column" gap="10">
+      <StyledWrapper direction="column" gap="16">
         {activities.map((a, index) => (
           <StyledActivitiesWrapper key={index}>
             <div>
-              <h4>{a.name}</h4>
+              <StyledWrapper direction="row" gap="8">
+                {" "}
+                <img src={a.icon} alt={a.name} width="20px" height="20px" />
+                <h4>{a.name}</h4>
+              </StyledWrapper>
+
               <p>{a.rating}</p>
             </div>
 

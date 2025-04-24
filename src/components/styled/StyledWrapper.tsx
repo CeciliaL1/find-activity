@@ -30,15 +30,3 @@ export const StyledActivitiesWrapper = styled.div`
   justify-content: space-between;
   margin: 5px;
 `;
-
-export const StyledMapWrapper = styled.div`
-  position: "fixed";
-  top: "20px";
-  right: "20px";
-  width: "400px";
-  height: "400px";
-  z-index: 1000;
-  box-shadow: "0 0 10px rgba(0,0,0,0.3)";
-  border-radius: "10px";
-  overflow: "hidden";
-`;

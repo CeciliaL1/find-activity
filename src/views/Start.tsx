@@ -1,10 +1,7 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-import {
-  StyledMapWrapper,
-  StyledWrapper,
-} from "../components/styled/StyledWrapper";
+import { StyledWrapper } from "../components/styled/StyledWrapper";
 import { getWeather } from "../helperfunctions/getWeather";
 import { WeatherContext, WeatherEnum } from "../context/WeatherContext";
 import { getActivitiesSun } from "../helperfunctions/getActivitiesSun";
