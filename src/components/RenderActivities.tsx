@@ -15,20 +15,26 @@ export const RenderActivities = ({ activities }: IActivities) => {
     <>
       <StyledWrapper direction="column" gap="16">
         {activities.map((a, index) => (
-          <StyledActivitiesWrapper key={index}>
-            <div>
-              <StyledWrapper direction="row" gap="8">
-                {" "}
+          <>
+            <StyledActivitiesWrapper
+              background={
+                a.icon_background_color ? a.icon_background_color : "#f2f2f2"
+              }
+              key={index}
+            >
+              <div>
                 <img src={a.icon} alt={a.name} width="20px" height="20px" />
-                <h4>{a.name}</h4>
-              </StyledWrapper>
-              {a.rating ? <Rating rating={a.rating}></Rating> : ""}
-            </div>
+                <h4>
+                  <a href="">{a.name}</a>
+                </h4>
+              </div>
+              <div>{a.rating ? <Rating rating={a.rating}></Rating> : ""}</div>
 
-            <div>
-              <p>{a.formatted_address ? a.formatted_address : a.vicinity}</p>
-            </div>
-          </StyledActivitiesWrapper>
+              <div>
+                <p>{a.formatted_address ? a.formatted_address : a.vicinity}</p>
+              </div>
+            </StyledActivitiesWrapper>
+          </>
         ))}
       </StyledWrapper>
     </>
