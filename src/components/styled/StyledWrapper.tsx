@@ -5,6 +5,7 @@ interface IWrapperProps {
   gap?: string;
   padding?: string;
   justify?: string;
+  margintop?: string;
 }
 
 interface IActivitesWrapperProps {
@@ -18,6 +19,7 @@ export const StyledWrapper = styled.div<IWrapperProps>`
   flex-wrap: wrap;
   gap: ${(props) => props.gap};
   padding: ${(props) => props.padding};
+  margin-top: ${(props) => props.margintop};
 
   @media screen and (max-width: 500px) {
     justify-content: center;
@@ -29,6 +31,7 @@ export const StyledActivitiesWrapper = styled.div<IActivitesWrapperProps>`
   display: flex;
   flex-direction: column;
   width: 550px;
+
   border: 0.5 solid black;
   padding: 30px;
   justify-content: space-between;

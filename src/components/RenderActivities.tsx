@@ -13,7 +13,7 @@ export const RenderActivities = ({ activities }: IActivities) => {
   });
   return (
     <>
-      <StyledWrapper direction="column" gap="16">
+      <StyledWrapper direction="column" gap="16" margintop="45px">
         {activities.map((a, index) => (
           <>
             <StyledActivitiesWrapper
