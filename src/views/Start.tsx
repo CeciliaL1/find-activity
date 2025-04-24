@@ -1,11 +1,15 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-import { StyledWrapper } from "../components/styled/StyledWrapper";
+import {
+  StyledMapWrapper,
+  StyledWrapper,
+} from "../components/styled/StyledWrapper";
 import { getWeather } from "../helperfunctions/getWeather";
 import { WeatherContext, WeatherEnum } from "../context/WeatherContext";
 import { getActivitiesSun } from "../helperfunctions/getActivitiesSun";
 import { getActivitiesRain } from "../helperfunctions/getActivitiesRain";
+import { RenderActivities } from "../components/RenderActivities";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
@@ -101,12 +105,13 @@ export const Start = () => {
       </h3>
 
       <StyledWrapper direction="row" gap="30px">
+        <RenderActivities activities={places} />
         <LoadScript
           googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
           libraries={["places"]}
         >
           <GoogleMap
-            mapContainerStyle={{ height: "400px", width: "50%" }}
+            mapContainerStyle={{ height: "400px", width: "40%" }}
             center={center}
             zoom={search.mapZoom}
             onLoad={onMapLoad}

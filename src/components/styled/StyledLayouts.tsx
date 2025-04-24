@@ -11,7 +11,7 @@ export const StyledHeader = styled.header`
 `;
 
 export const Main = styled.main`
-  max-width: 800px;
+  max-width: 1500px;
   min-height: 100vh;
   margin: auto;
   margin-top: 48px;
