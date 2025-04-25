@@ -3,7 +3,7 @@ export interface IForecastDays {
 }
 
 interface IWeather {
-  dayTimeForecast: IDaytimeForecast;
+  daytimeForecast: IDaytimeForecast;
   feelsLikeMaxTemperature: ITemp;
   feelsLikeMinTemperature: ITemp;
   interval: IInterval;

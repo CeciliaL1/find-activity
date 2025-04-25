@@ -13,6 +13,9 @@ export const Start = () => {
   const { weather, weatherDispatch } = useContext(WeatherContext);
   const [places, setPlaces] = useState<google.maps.places.PlaceResult[]>([]);
   const mapRef = useRef<google.maps.Map | null>(null);
+  const [textMessage, setTextMessage] = useState("");
+  const [hasFetched, setHasFetched] = useState(false);
+  const [loadingWeather, setLoadingWeather] = useState(true);
 
   const onMapLoad = (map: google.maps.Map) => {
     mapRef.current = map;
@@ -27,31 +30,51 @@ export const Start = () => {
   );
 
   useEffect(() => {
-    if (search.search && mapRef.current && window.google) {
+    if (search.search && mapRef.current && window.google && !hasFetched) {
       const service = new window.google.maps.places.PlacesService(
         mapRef.current
       );
 
       const getWeatherData = async () => {
-        const response = await getWeather(center.lat, center.lng);
-        weatherDispatch({
-          type: WeatherEnum.ADDED,
-          payload: response,
-        });
-        const precipitation =
-          response?.forecastDays?.[0]?.dayTimeForecast?.precipitation
-            .probability.percent ?? 100;
+        try {
+          setLoadingWeather(true);
+          const response = await getWeather(center.lat, center.lng);
+          console.log("response", response);
 
-        if (precipitation > 30) {
-          fetchSunPlaces(service, center, setPlaces);
-        } else if (precipitation < 50) {
-          fetchRainPlaces(service, center, setPlaces);
+          weatherDispatch({
+            type: WeatherEnum.ADDED,
+            payload: response,
+          });
+
+          const precipitation =
+            response?.forecastDays?.[0]?.daytimeForecast?.precipitation
+              ?.probability?.percent ?? 100;
+
+          if (precipitation < 30) {
+            await fetchSunPlaces(service, center, setPlaces);
+          } else {
+            await fetchRainPlaces(service, center, setPlaces);
+          }
+
+          setTextMessage(`
+            Den ${response.forecastDays[0].interval.startTime} ska det vara
+            ${response.forecastDays[0].maxTemperature.degrees}°. Det är ${response.forecastDays[0].daytimeForecast.precipitation.probability.percent}% chans för nederbörd.
+            Dessa aktiviteter är anpassade efter din filtrering.
+          `);
+        } catch (error) {
+          console.error("Weather fetch failed:", error);
+          setTextMessage(
+            "Problem med hämtning av vädret, Aktiviteterna är inte anpassade"
+          );
+        } finally {
+          setLoadingWeather(false);
+          setHasFetched(true);
         }
       };
 
       getWeatherData();
     }
-  }, [search.search, center, weatherDispatch]);
+  }, [search.search, center, weatherDispatch, hasFetched]);
 
   const fetchSunPlaces = async (
     service: google.maps.places.PlacesService,
@@ -94,13 +117,7 @@ export const Start = () => {
 
   return (
     <>
-      <h3>
-        Den {weather.forecastDays[0].interval.startTime} ska det vara{" "}
-        {weather.forecastDays[0].maxTemperature.degrees}. Dessa aktiviteter är
-        anpassade efter din filtrering. Längre ner kan du se alla aktiviteter
-        möjliga [datum] - [plats]
-      </h3>
-
+      <h5>{textMessage}</h5>
       <StyledWrapper direction="row" gap="30px">
         <RenderActivities activities={places} />
         <LoadScript
