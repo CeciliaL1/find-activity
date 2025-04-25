@@ -2,10 +2,12 @@ import { RouterProvider } from "react-router";
 import "./App.css";
 import { Router } from "./Router";
 import { SearchContext } from "./context/SearchContext";
-import {  useReducer } from "react";
+import { useReducer } from "react";
 import { SearchReducer } from "./reducer/SearchReducer";
 import { WeatherContext } from "./context/WeatherContext";
 import { WeatherReducer } from "./reducer/WeatherReducer";
+import { ActivityReducer } from "./reducer/ActivityReducer";
+import { ActivityContext } from "./context/ActivitiesContext";
 
 function App() {
   const [search, searchDispatch] = useReducer(SearchReducer, {
@@ -21,7 +23,7 @@ function App() {
   const [weather, weatherDispatch] = useReducer(WeatherReducer, {
     forecastDays: [
       {
-        dayTimeForecast: {
+        daytimeForecast: {
           uvIndex: 0,
           precipitation: {
             probability: {
@@ -59,13 +61,17 @@ function App() {
     ],
   });
 
+  const [activities, activitiesDispatch] = useReducer(ActivityReducer, []);
+
   return (
     <>
-      <SearchContext.Provider value={{ search, searchDispatch }}>
-        <WeatherContext.Provider value={{ weather, weatherDispatch }}>
-          <RouterProvider router={Router}></RouterProvider>
-        </WeatherContext.Provider>
-      </SearchContext.Provider>
+      <ActivityContext.Provider value={{ activities, activitiesDispatch }}>
+        <SearchContext.Provider value={{ search, searchDispatch }}>
+          <WeatherContext.Provider value={{ weather, weatherDispatch }}>
+            <RouterProvider router={Router}></RouterProvider>
+          </WeatherContext.Provider>
+        </SearchContext.Provider>
+      </ActivityContext.Provider>
     </>
   );
 }

@@ -1,4 +1,11 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { SearchContext } from "../context/SearchContext";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { StyledWrapper } from "../components/styled/StyledWrapper";
@@ -7,11 +14,12 @@ import { WeatherContext, WeatherEnum } from "../context/WeatherContext";
 import { getActivitiesSun } from "../helperfunctions/getActivitiesSun";
 import { getActivitiesRain } from "../helperfunctions/getActivitiesRain";
 import { RenderActivities } from "../components/RenderActivities";
+import { ActivitiesEnum, ActivityContext } from "../context/ActivitiesContext";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
   const { weatherDispatch } = useContext(WeatherContext);
-  const [places, setPlaces] = useState<google.maps.places.PlaceResult[]>([]);
+  const { activities, activitiesDispatch } = useContext(ActivityContext);
   const mapRef = useRef<google.maps.Map | null>(null);
   const [textMessage, setTextMessage] = useState("");
   const [hasFetched, setHasFetched] = useState(false);
@@ -29,6 +37,41 @@ export const Start = () => {
     [search.location.lat, search.location.lng]
   );
 
+  const fetchSunPlaces = useCallback(
+    async (
+      service: google.maps.places.PlacesService,
+      center: { lat: number; lng: number }
+    ) => {
+      try {
+        const results = await getActivitiesSun(service, center);
+        activitiesDispatch({
+          type: ActivitiesEnum.ADD,
+          payload: results,
+        });
+      } catch (error) {
+        console.error("Error fetching activities:", error);
+      }
+    },
+    [activitiesDispatch]
+  );
+
+  const fetchRainPlaces = useCallback(
+    async (
+      service: google.maps.places.PlacesService,
+      center: { lat: number; lng: number }
+    ) => {
+      try {
+        const results = await getActivitiesRain(service, center);
+        activitiesDispatch({
+          type: ActivitiesEnum.ADD,
+          payload: results,
+        });
+      } catch (error) {
+        console.error("Error fetching activities:", error);
+      }
+    },
+    [activitiesDispatch]
+  );
   useEffect(() => {
     if (search.search && mapRef.current && window.google && !hasFetched) {
       const service = new window.google.maps.places.PlacesService(
@@ -50,9 +93,9 @@ export const Start = () => {
               ?.probability?.percent ?? 100;
 
           if (precipitation < 30) {
-            await fetchSunPlaces(service, center, setPlaces);
+            await fetchSunPlaces(service, center);
           } else {
-            await fetchRainPlaces(service, center, setPlaces);
+            await fetchRainPlaces(service, center);
           }
 
           setTextMessage(`
@@ -73,46 +116,14 @@ export const Start = () => {
 
       getWeatherData();
     }
-  }, [search.search, center, weatherDispatch, hasFetched]);
-
-  const fetchSunPlaces = async (
-    service: google.maps.places.PlacesService,
-    center: { lat: number; lng: number },
-    setPlaces: React.Dispatch<
-      React.SetStateAction<google.maps.places.PlaceResult[]>
-    >
-  ) => {
-    try {
-      const results = await getActivitiesSun(service, center);
-      setPlaces((prev) => {
-        const newResults = results.filter(
-          (place) => !prev.some((p) => p.place_id === place.place_id)
-        );
-        return [...prev, ...newResults];
-      });
-    } catch (error) {
-      console.error("Error fetching activities:", error);
-    }
-  };
-  const fetchRainPlaces = async (
-    service: google.maps.places.PlacesService,
-    center: { lat: number; lng: number },
-    setPlaces: React.Dispatch<
-      React.SetStateAction<google.maps.places.PlaceResult[]>
-    >
-  ) => {
-    try {
-      const results = await getActivitiesRain(service, center);
-      setPlaces((prev) => {
-        const newResults = results.filter(
-          (place) => !prev.some((p) => p.place_id === place.place_id)
-        );
-        return [...prev, ...newResults];
-      });
-    } catch (error) {
-      console.error("Error fetching activities:", error);
-    }
-  };
+  }, [
+    search.search,
+    center,
+    weatherDispatch,
+    hasFetched,
+    fetchSunPlaces,
+    fetchRainPlaces,
+  ]);
 
   return (
     <>
@@ -124,7 +135,7 @@ export const Start = () => {
           : ""}
       </h5>
       <StyledWrapper direction="row" gap="30px">
-        <RenderActivities activities={places} />
+        <RenderActivities activities={activities} />
         <LoadScript
           googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
           libraries={["places"]}
@@ -143,7 +154,7 @@ export const Start = () => {
             zoom={search.mapZoom}
             onLoad={onMapLoad}
           >
-            {places.map((place, index) => {
+            {activities.map((place, index) => {
               const location = place.geometry?.location;
               if (!location) return null;
 
