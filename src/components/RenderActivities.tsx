@@ -1,7 +1,8 @@
+import { Link } from "react-router";
 import { Rating } from "./Rating";
 import { StyledActivitiesWrapper, StyledWrapper } from "./styled/StyledWrapper";
 
-interface IActivities {
+export interface IActivities {
   activities: google.maps.places.PlaceResult[];
 }
 
@@ -25,7 +26,7 @@ export const RenderActivities = ({ activities }: IActivities) => {
               <div>
                 <img src={a.icon} alt={a.name} width="20px" height="20px" />
                 <h4>
-                  <a href="">{a.name}</a>
+                  <Link to={`/${index}`}>{a.name}</Link>
                 </h4>
               </div>
               <div>{a.rating ? <Rating rating={a.rating}></Rating> : ""}</div>

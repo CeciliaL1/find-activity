@@ -10,7 +10,7 @@ import { RenderActivities } from "../components/RenderActivities";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
-  const { weather, weatherDispatch } = useContext(WeatherContext);
+  const { weatherDispatch } = useContext(WeatherContext);
   const [places, setPlaces] = useState<google.maps.places.PlaceResult[]>([]);
   const mapRef = useRef<google.maps.Map | null>(null);
   const [textMessage, setTextMessage] = useState("");
@@ -39,7 +39,6 @@ export const Start = () => {
         try {
           setLoadingWeather(true);
           const response = await getWeather(center.lat, center.lng);
-          console.log("response", response);
 
           weatherDispatch({
             type: WeatherEnum.ADDED,
@@ -117,7 +116,13 @@ export const Start = () => {
 
   return (
     <>
-      <h5>{textMessage}</h5>
+      <h5>
+        {search.search
+          ? loadingWeather
+            ? "Laddar väder..."
+            : textMessage
+          : ""}
+      </h5>
       <StyledWrapper direction="row" gap="30px">
         <RenderActivities activities={places} />
         <LoadScript
@@ -132,6 +137,7 @@ export const Start = () => {
               position: "sticky",
               top: "50px",
               borderRadius: "5px",
+              boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
             }}
             center={center}
             zoom={search.mapZoom}

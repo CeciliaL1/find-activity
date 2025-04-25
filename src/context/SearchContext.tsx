@@ -24,6 +24,7 @@ export const SearchContext = createContext<ISearchContext>({
       {
         label: "",
         value: true,
+        searchWord: "",
       },
     ],
     location: { lat: 0, lng: 0 },
