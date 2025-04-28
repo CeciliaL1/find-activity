@@ -18,7 +18,7 @@ import { ActivitiesEnum, ActivityContext } from "../context/ActivitiesContext";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
-  const { weatherDispatch } = useContext(WeatherContext);
+  const { weather, weatherDispatch } = useContext(WeatherContext);
   const { activities, activitiesDispatch } = useContext(ActivityContext);
   const mapRef = useRef<google.maps.Map | null>(null);
   const [textMessage, setTextMessage] = useState("");
@@ -124,7 +124,7 @@ export const Start = () => {
     fetchSunPlaces,
     fetchRainPlaces,
   ]);
-
+  console.log(activities);
   return (
     <>
       <h5>

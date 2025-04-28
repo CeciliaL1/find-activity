@@ -6,7 +6,7 @@ export const Layout = () => {
   return (
     <>
       <Header />
-      <Main>
+      <Main width="1200px">
         <Outlet></Outlet>
       </Main>
     </>
