@@ -18,7 +18,7 @@ import { ActivitiesEnum, ActivityContext } from "../context/ActivitiesContext";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
-  const { weather, weatherDispatch } = useContext(WeatherContext);
+  const { weatherDispatch } = useContext(WeatherContext);
   const { activities, activitiesDispatch } = useContext(ActivityContext);
   const mapRef = useRef<google.maps.Map | null>(null);
   const [textMessage, setTextMessage] = useState("");
@@ -29,13 +29,15 @@ export const Start = () => {
     mapRef.current = map;
   };
 
-  const center = useMemo(
-    () => ({
+  const center = useMemo(() => {
+    if (!search.location) {
+      return { lat: 59.3293, lng: 18.0686 };
+    }
+    return {
       lat: search.location.lat,
       lng: search.location.lng,
-    }),
-    [search.location.lat, search.location.lng]
-  );
+    };
+  }, [search.location]);
 
   const fetchSunPlaces = useCallback(
     async (
@@ -78,7 +80,9 @@ export const Start = () => {
         mapRef.current
       );
 
-      const getWeatherData = async () => {
+      const getWeatherData = async (
+        service: google.maps.places.PlacesService
+      ) => {
         try {
           setLoadingWeather(true);
           const response = await getWeather(center.lat, center.lng);
@@ -105,6 +109,7 @@ export const Start = () => {
           `);
         } catch (error) {
           console.error("Weather fetch failed:", error);
+          await fetchSunPlaces(service, center);
           setTextMessage(
             "Problem med hämtning av vädret, Aktiviteterna är inte anpassade"
           );
@@ -114,7 +119,7 @@ export const Start = () => {
         }
       };
 
-      getWeatherData();
+      getWeatherData(service);
     }
   }, [
     search.search,
@@ -124,7 +129,7 @@ export const Start = () => {
     fetchSunPlaces,
     fetchRainPlaces,
   ]);
-  console.log(activities);
+
   return (
     <>
       <h5>
@@ -141,6 +146,7 @@ export const Start = () => {
           libraries={["places"]}
         >
           <GoogleMap
+            key={`${center.lat}-${center.lng}`}
             mapContainerStyle={{
               height: "600px",
               width: "45%",
