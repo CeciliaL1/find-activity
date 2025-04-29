@@ -15,8 +15,16 @@ export const StyledHeader = styled.header`
 `;
 
 export const Main = styled.main<IMainProps>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   max-width: ${(props) => props.width};
+  align-items: center;
+  text-align: center;
   min-height: 100vh;
   margin: auto;
   margin-top: 48px;
+  margin-bottom: 100px;
 `;

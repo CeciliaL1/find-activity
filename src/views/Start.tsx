@@ -149,8 +149,8 @@ export const Start = () => {
             key={`${center.lat}-${center.lng}`}
             mapContainerStyle={{
               height: "600px",
-              width: "45%",
-
+              width: `${search.search ? "500px" : "900px"}`,
+              marginBottom: "30px",
               position: "sticky",
               top: "50px",
               borderRadius: "5px",

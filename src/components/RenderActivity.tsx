@@ -120,10 +120,11 @@ export const RenderActivity = () => {
     });
   };
 
+  console.log(placeDetails);
   return (
     <>
       <Main width="900px">
-        <StyledWrapper direction="row" gap="50px">
+        <StyledWrapper direction="row" gap="16px">
           <div>
             <h4>{activity.name}</h4>
             <p>{distance && <span>Avstånd: {distance}</span>}</p>
@@ -141,7 +142,7 @@ export const RenderActivity = () => {
             <GoogleMap
               mapContainerStyle={{
                 height: "600px",
-                width: "45%",
+                width: "550px",
                 top: "0px",
                 borderRadius: "5px",
                 boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
