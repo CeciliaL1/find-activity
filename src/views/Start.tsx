@@ -18,7 +18,7 @@ import { ActivitiesEnum, ActivityContext } from "../context/ActivitiesContext";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
-  const { weatherDispatch } = useContext(WeatherContext);
+  const { weather, weatherDispatch } = useContext(WeatherContext);
   const { activities, activitiesDispatch } = useContext(ActivityContext);
   const mapRef = useRef<google.maps.Map | null>(null);
   const [textMessage, setTextMessage] = useState("");
@@ -30,8 +30,8 @@ export const Start = () => {
   };
 
   const center = useMemo(() => {
-    if (!search.location) {
-      return { lat: 59.3293, lng: 18.0686 };
+    if (search.location.lat === 0 && search.location.lat === 0) {
+      return { lat: 55.60587, lng: 13.00073 };
     }
     return {
       lat: search.location.lat,
@@ -39,6 +39,8 @@ export const Start = () => {
     };
   }, [search.location]);
 
+  console.log("search", search.location);
+  console.log("center", center);
   const fetchSunPlaces = useCallback(
     async (
       service: google.maps.places.PlacesService,
@@ -75,6 +77,11 @@ export const Start = () => {
     [activitiesDispatch]
   );
   useEffect(() => {
+    if (search.location.lat === 0 && search.location.lng === 0) {
+      setTextMessage(
+        "Problem med hämtning av vädret och din plats, Aktiviteterna och platsen är inte anpassade"
+      );
+    }
     if (search.search && mapRef.current && window.google && !hasFetched) {
       const service = new window.google.maps.places.PlacesService(
         mapRef.current
@@ -101,17 +108,18 @@ export const Start = () => {
           } else {
             await fetchRainPlaces(service, center);
           }
-
-          setTextMessage(`
-            Den ${response.forecastDays[0].interval.startTime} ska det vara
-            ${response.forecastDays[0].maxTemperature.degrees}°. Det är ${response.forecastDays[0].daytimeForecast.precipitation.probability.percent}% chans för nederbörd.
-            Dessa aktiviteter är anpassade efter din filtrering.
-          `);
+          if (search.location.lat != 0 && search.location.lng != 0) {
+            setTextMessage(`
+    Den ${response.forecastDays[0].interval.startTime} ska det vara
+    ${response.forecastDays[0].maxTemperature.degrees}°. Det är ${response.forecastDays[0].daytimeForecast.precipitation.probability.percent}% chans för nederbörd.
+    Dessa aktiviteter är anpassade efter din filtrering.
+  `);
+          }
         } catch (error) {
           console.error("Weather fetch failed:", error);
-          await fetchSunPlaces(service, center);
+
           setTextMessage(
-            "Problem med hämtning av vädret, Aktiviteterna är inte anpassade"
+            "Problem med hämtning av vädret och din plats, Aktiviteterna och platsen är inte anpassade"
           );
         } finally {
           setLoadingWeather(false);
@@ -128,6 +136,7 @@ export const Start = () => {
     hasFetched,
     fetchSunPlaces,
     fetchRainPlaces,
+    weather.forecastDays,
   ]);
 
   return (
