@@ -23,12 +23,13 @@ export const RenderActivity = () => {
 
   const onMapLoad = (map: google.maps.Map) => {
     mapRef.current = map;
+    fetchPlaceDetails();
   };
 
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [placeDetails, setPlaceDetails] =
     useState<google.maps.places.PlaceResult | null>(null);
-  const [loadingDetails, setLoadingDetails] = useState(false);
+
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
   const [distance, setDistance] = useState<string | null>(null);
@@ -83,19 +84,10 @@ export const RenderActivity = () => {
       calculateDirections();
     }
   }, [searchCenter, center]);
-  if (!location) return null;
 
   const fetchPlaceDetails = () => {
-    if (
-      !mapRef.current ||
-      !activity.place_id ||
-      placeDetails ||
-      loadingDetails
-    ) {
-      return;
-    }
+    if (!mapRef.current || !activity.place_id) return;
 
-    setLoadingDetails(true);
     const service = new google.maps.places.PlacesService(mapRef.current);
 
     const request: google.maps.places.PlaceDetailsRequest = {
@@ -116,11 +108,11 @@ export const RenderActivity = () => {
       } else {
         console.error("Failed to get place details:", status);
       }
-      setLoadingDetails(false);
     });
   };
 
-  console.log(placeDetails);
+  if (!location) return null;
+
   return (
     <>
       <Main width="900px">
@@ -133,6 +125,16 @@ export const RenderActivity = () => {
                 ? activity.formatted_address
                 : activity.vicinity}
             </p>
+            {placeDetails && placeDetails.opening_hours?.weekday_text && (
+              <div>
+                <strong>Öppettider:</strong>
+                <ul>
+                  {placeDetails.opening_hours.weekday_text.map((day, index) => (
+                    <li key={index}>{day}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <LoadScript
@@ -158,7 +160,6 @@ export const RenderActivity = () => {
                 }}
                 title={activity.name}
                 onMouseOver={() => {
-                  fetchPlaceDetails();
                   setInfoWindowOpen(true);
                 }}
               />
@@ -182,18 +183,6 @@ export const RenderActivity = () => {
                       >
                         Website
                       </a>
-                    )}
-                    {placeDetails.opening_hours?.weekday_text && (
-                      <div>
-                        <strong>Opening Hours:</strong>
-                        <ul>
-                          {placeDetails.opening_hours.weekday_text.map(
-                            (day, index) => (
-                              <li key={index}>{day}</li>
-                            )
-                          )}
-                        </ul>
-                      </div>
                     )}
                   </div>
                 </InfoWindow>
