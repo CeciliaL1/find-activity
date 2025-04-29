@@ -11,6 +11,7 @@ import {
 } from "@react-google-maps/api";
 import { SearchContext } from "../context/SearchContext";
 import { Main } from "./styled/StyledLayouts";
+import { Rating } from "./Rating";
 
 export const RenderActivity = () => {
   const { search } = useContext(SearchContext);
@@ -29,6 +30,7 @@ export const RenderActivity = () => {
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [placeDetails, setPlaceDetails] =
     useState<google.maps.places.PlaceResult | null>(null);
+  const [photoUrl, setPhotoUrl] = useState("");
 
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
@@ -104,6 +106,10 @@ export const RenderActivity = () => {
 
     service.getDetails(request, (place, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+        if (place.photos && place.photos.length > 0) {
+          setPhotoUrl(place.photos[0].getUrl({ maxWidth: 350 }));
+        }
+
         setPlaceDetails(place);
       } else {
         console.error("Failed to get place details:", status);
@@ -115,28 +121,55 @@ export const RenderActivity = () => {
 
   return (
     <>
-      <Main width="900px">
+      <Link to="/">Tillbaka</Link>
+      <Main width="1000px">
         <StyledWrapper direction="row" gap="16px">
           <div>
             <h4>{activity.name}</h4>
-            <p>{distance && <span>Avstånd: {distance}</span>}</p>
-            <p>
-              {activity.formatted_address
-                ? activity.formatted_address
-                : activity.vicinity}
-            </p>
-            {placeDetails && placeDetails.opening_hours?.weekday_text && (
+            <div>
+              {activity.rating ? (
+                <Rating rating={activity.rating}></Rating>
+              ) : (
+                ""
+              )}
+              <p>
+                {distance && (
+                  <span>
+                    Avstånd till {activity.name}: {distance}
+                  </span>
+                )}
+              </p>
+              <p>
+                {activity.formatted_address
+                  ? activity.formatted_address
+                  : activity.vicinity}
+              </p>
               <div>
-                <strong>Öppettider:</strong>
-                <ul>
-                  {placeDetails.opening_hours.weekday_text.map((day, index) => (
-                    <li key={index}>{day}</li>
-                  ))}
-                </ul>
+                <img src={photoUrl} alt={activity.name} />
               </div>
-            )}
-          </div>
 
+              <div>
+                {placeDetails && placeDetails.opening_hours?.weekday_text && (
+                  <>
+                    <strong>Öppettider:</strong>
+                    <ul>
+                      {placeDetails.opening_hours.weekday_text.map(
+                        (day, index) => (
+                          <li key={index}>{day}</li>
+                        )
+                      )}
+                    </ul>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div>
+              {placeDetails && placeDetails.website && (
+                <a href={placeDetails.website}>Gå till hemsidan</a>
+              )}
+            </div>
+          </div>
           <LoadScript
             googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
             libraries={["places", "geometry"]}
@@ -144,7 +177,7 @@ export const RenderActivity = () => {
             <GoogleMap
               mapContainerStyle={{
                 height: "600px",
-                width: "550px",
+                width: "500px",
                 top: "0px",
                 borderRadius: "5px",
                 boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
@@ -173,17 +206,6 @@ export const RenderActivity = () => {
                 >
                   <div style={{ maxWidth: "300px" }}>
                     <h4>{placeDetails.name}</h4>
-                    <p>{placeDetails.formatted_address}</p>
-                    {placeDetails.rating && <p>⭐ {placeDetails.rating}</p>}
-                    {placeDetails.website && (
-                      <a
-                        href={placeDetails.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Website
-                      </a>
-                    )}
                   </div>
                 </InfoWindow>
               )}
@@ -199,7 +221,6 @@ export const RenderActivity = () => {
             </GoogleMap>
           </LoadScript>
         </StyledWrapper>
-        <Link to="/">Tillbaka</Link>
       </Main>
     </>
   );
