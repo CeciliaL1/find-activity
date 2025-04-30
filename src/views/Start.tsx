@@ -39,8 +39,6 @@ export const Start = () => {
     };
   }, [search.location]);
 
-  console.log("search", search.location);
-  console.log("center", center);
   const fetchSunPlaces = useCallback(
     async (
       service: google.maps.places.PlacesService,
