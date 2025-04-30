@@ -6,6 +6,7 @@ interface IWrapperProps {
   padding?: string;
   justify?: string;
   margintop?: string;
+  marginbottom?: string;
 }
 
 interface IActivitesWrapperProps {
@@ -20,6 +21,8 @@ export const StyledWrapper = styled.div<IWrapperProps>`
   gap: ${(props) => props.gap};
   padding: ${(props) => props.padding};
   margin-top: ${(props) => props.margintop};
+  margin-bottom: ${(props) => props.marginbottom};
+  justify-content: ${(props) => props.justify};
   @media screen and (max-width: 500px) {
     justify-content: center;
     gap: 16px;
@@ -57,4 +60,18 @@ export const StarWrapper = styled.div<IWrapperProps>`
   display: flex;
   flex-direction: ${(props) => props.direction};
   margin-bottom: 8px;
+`;
+
+export const StyledActivityWrapper = styled.div<IWrapperProps>`
+  background-color: transparent;
+  display: flex;
+  flex-direction: ${(props) => props.direction};
+  flex-wrap: wrap;
+  gap: ${(props) => props.gap};
+  padding: ${(props) => props.padding};
+  margin-top: ${(props) => props.margintop};
+  @media screen and (max-width: 500px) {
+    justify-content: center;
+    gap: 16px;
+  }
 `;

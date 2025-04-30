@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
 import { ActivityContext } from "../context/ActivitiesContext";
-import { StyledWrapper } from "./styled/StyledWrapper";
+import { StyledActivityWrapper, StyledWrapper } from "./styled/StyledWrapper";
 import {
   LoadScript,
   GoogleMap,
@@ -57,7 +57,6 @@ export const RenderActivity = () => {
   useEffect(() => {
     const calculateDirections = () => {
       if (!mapRef.current) return;
-
       const directionsService = new google.maps.DirectionsService();
 
       directionsService.route(
@@ -122,46 +121,46 @@ export const RenderActivity = () => {
   return (
     <>
       <Link to="/">Tillbaka</Link>
-      <Main width="1000px">
-        <StyledWrapper direction="row" gap="16px">
-          <div>
-            <h4>{activity.name}</h4>
-            <div>
+      <Main width="1500px">
+        <StyledActivityWrapper direction="row" gap="16px">
+          <StyledWrapper direction="column">
+            <StyledWrapper
+              direction="row"
+              gap="32px"
+              justify="space-between"
+              marginbottom="16px"
+            >
+              <h4>{activity.name}</h4>
+
               {activity.rating ? (
                 <Rating rating={activity.rating}></Rating>
               ) : (
                 ""
               )}
-              <p>
-                {distance && (
-                  <span>
-                    Avstånd till {activity.name}: {distance}
-                  </span>
-                )}
-              </p>
-              <p>
-                {activity.formatted_address
-                  ? activity.formatted_address
-                  : activity.vicinity}
-              </p>
-              <div>
-                <img src={photoUrl} alt={activity.name} />
-              </div>
+            </StyledWrapper>
+            <div>
+              <img src={photoUrl} alt={activity.name} />
+            </div>
 
-              <div>
-                {placeDetails && placeDetails.opening_hours?.weekday_text && (
-                  <>
-                    <strong>Öppettider:</strong>
-                    <ul>
-                      {placeDetails.opening_hours.weekday_text.map(
-                        (day, index) => (
-                          <li key={index}>{day}</li>
-                        )
-                      )}
-                    </ul>
-                  </>
-                )}
-              </div>
+            <p>
+              {activity.formatted_address
+                ? activity.formatted_address
+                : activity.vicinity}
+            </p>
+
+            <div>
+              {placeDetails && placeDetails.opening_hours?.weekday_text && (
+                <>
+                  <strong>Öppettider:</strong>
+                  <ul>
+                    {placeDetails.opening_hours.weekday_text.map(
+                      (day, index) => (
+                        <li key={index}>{day}</li>
+                      )
+                    )}
+                  </ul>
+                </>
+              )}
             </div>
 
             <div>
@@ -169,6 +168,14 @@ export const RenderActivity = () => {
                 <a href={placeDetails.website}>Gå till hemsidan</a>
               )}
             </div>
+          </StyledWrapper>
+
+          <div>
+            {distance && (
+              <p>
+                Avstånd till {activity.name}: {distance}
+              </p>
+            )}
           </div>
           <LoadScript
             googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
@@ -220,7 +227,7 @@ export const RenderActivity = () => {
               )}
             </GoogleMap>
           </LoadScript>
-        </StyledWrapper>
+        </StyledActivityWrapper>
       </Main>
     </>
   );
