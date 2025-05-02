@@ -1,7 +1,5 @@
-import { Checkbox } from "./CheckBox";
-
 import { SearchButton } from "./SearchButton";
-import { SliderPicker } from "./SliderPicker";
+
 import { StyledSearchBar } from "../styled/StyledSearchBar";
 import { StyledWrapper } from "../styled/StyledWrapper";
 
@@ -9,21 +7,18 @@ export const SearchBar = () => {
   return (
     <>
       <StyledSearchBar>
-        <StyledWrapper direction="row" padding="30px" gap="60px">
-          <StyledWrapper direction="column" gap="20px">
-            <SliderPicker
-              min={0}
-              max={1000}
-              type="price"
-              text="Prisintervall"
-            />
-            <SliderPicker min={0} max={100} type="age" text="Åldersintervall" />
-          </StyledWrapper>
-          <StyledWrapper direction="column" gap="10px">
-            <Checkbox />
-
-            <SearchButton />
-          </StyledWrapper>
+        <StyledWrapper
+          direction="column"
+          justify="center"
+          padding="30px"
+          gap="32px"
+        >
+          <h1>Vad ska vi hitta på?</h1>
+          <p>
+            Det söks efter aktiviteter anpassade till din position och
+            väderförhållande. Hoppas du hittar någon roligt att hitta på!
+          </p>
+          <SearchButton />
         </StyledWrapper>
       </StyledSearchBar>
     </>

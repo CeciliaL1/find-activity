@@ -9,8 +9,7 @@ export const StyledSearchButton = styled.button`
   border-radius: 5px;
   font-size: 1rem;
   position: relative;
-  top: 60px;
-  left: 70px;
+  left: 190px;
   cursor: pointer;
   border: solid 1px #4c7958;
 

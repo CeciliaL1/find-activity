@@ -23,6 +23,7 @@ export const StyledWrapper = styled.div<IWrapperProps>`
   margin-top: ${(props) => props.margintop};
   margin-bottom: ${(props) => props.marginbottom};
   justify-content: ${(props) => props.justify};
+  text-align: center;
   @media screen and (max-width: 500px) {
     justify-content: center;
     gap: 16px;
