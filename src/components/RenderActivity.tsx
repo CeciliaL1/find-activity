@@ -138,8 +138,19 @@ export const RenderActivity = () => {
                 ""
               )}
             </StyledWrapper>
+
             <div>
-              <img src={photoUrl} alt={activity.name} />
+              {distance && (
+                <p>
+                  Avstånd till {activity.name}: {distance}
+                </p>
+              )}
+            </div>
+            <div>
+              <img
+                src={photoUrl ? photoUrl : activity.name}
+                alt={activity.name}
+              />
             </div>
 
             <p>
@@ -170,13 +181,6 @@ export const RenderActivity = () => {
             </div>
           </StyledWrapper>
 
-          <div>
-            {distance && (
-              <p>
-                Avstånd till {activity.name}: {distance}
-              </p>
-            )}
-          </div>
           <LoadScript
             googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
             libraries={["places", "geometry"]}

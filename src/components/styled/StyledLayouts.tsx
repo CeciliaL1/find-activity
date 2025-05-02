@@ -25,6 +25,6 @@ export const Main = styled.main<IMainProps>`
   text-align: center;
   min-height: 100vh;
   margin: auto;
-  margin-top: 48px;
+  margin-top: 32px;
   margin-bottom: 100px;
 `;
