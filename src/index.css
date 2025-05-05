@@ -28,3 +28,6 @@ li {
   list-style: none;
   margin-bottom: 10px;
 }
+a {
+  color: black;
+}
