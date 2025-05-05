@@ -12,6 +12,7 @@ import {
 import { SearchContext } from "../context/SearchContext";
 import { Main } from "./styled/StyledLayouts";
 import { Rating } from "./Rating";
+import { formatOpeningHours } from "../helperfunctions/formatOpeningHours";
 
 export const RenderActivity = () => {
   const { search } = useContext(SearchContext);
@@ -35,6 +36,7 @@ export const RenderActivity = () => {
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
   const [distance, setDistance] = useState<string | null>(null);
+  const [openHours, setOpenHours] = useState<string[]>([]);
 
   const location = activity.geometry?.location;
 
@@ -85,6 +87,14 @@ export const RenderActivity = () => {
       calculateDirections();
     }
   }, [searchCenter, center]);
+  useEffect(() => {
+    if (placeDetails && placeDetails?.opening_hours?.weekday_text) {
+      const open = placeDetails.opening_hours.weekday_text;
+      const formattedTime = formatOpeningHours(open);
+      console.log(formattedTime);
+      setOpenHours(formattedTime);
+    }
+  }, [placeDetails]);
 
   const fetchPlaceDetails = () => {
     if (!mapRef.current || !activity.place_id) return;
@@ -165,7 +175,7 @@ export const RenderActivity = () => {
                 src={photoUrl ? photoUrl : activity.name}
                 alt={activity.name}
                 width="auto"
-                height="470px"
+                height="300px"
               />
             </div>
           </div>
@@ -175,7 +185,7 @@ export const RenderActivity = () => {
               <>
                 <strong>Öppettider:</strong>
                 <ul>
-                  {placeDetails.opening_hours.weekday_text.map((day, index) => (
+                  {openHours.map((day, index) => (
                     <li key={index}>{day}</li>
                   ))}
                 </ul>
