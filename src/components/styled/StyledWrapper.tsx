@@ -35,7 +35,7 @@ export const StyledActivitiesWrapper = styled.div<IActivitesWrapperProps>`
   flex-direction: column;
   width: 550px;
 
-  border: 0.5 solid black;
+  border: 0.5px solid black;
   padding: 30px;
   justify-content: space-between;
   margin: 5px;
@@ -71,6 +71,37 @@ export const StyledActivityWrapper = styled.div<IWrapperProps>`
   gap: ${(props) => props.gap};
   padding: ${(props) => props.padding};
   margin-top: ${(props) => props.margintop};
+  .text-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+    .first-text-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .link-wrapper a {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        color: black;
+        height: 32px;
+
+        &:hover {
+          font-size: 1.1rem;
+
+          img {
+            width: 35px;
+            height: 30px;
+          }
+        }
+      }
+    }
+  }
+  .opening-hours {
+    text-align: left;
+  }
   @media screen and (max-width: 500px) {
     justify-content: center;
     gap: 16px;
