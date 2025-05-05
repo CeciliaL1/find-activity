@@ -100,6 +100,18 @@ export const StyledActivityWrapper = styled.div<IWrapperProps>`
         }
       }
     }
+    .img-container {
+      width: 400px;
+      height: 445px;
+      position: relative;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
   }
   .opening-hours {
     text-align: left;

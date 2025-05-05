@@ -50,13 +50,8 @@ export const ActivityPresentation = ({
             ? activity.formatted_address
             : activity.vicinity}
         </p>
-        <div>
-          <img
-            src={photoUrl ? photoUrl : activity.name}
-            alt={activity.name}
-            width="auto"
-            height="300px"
-          />
+        <div className="img-container">
+          <img src={photoUrl ? photoUrl : activity.name} alt={activity.name} />
         </div>
       </div>
 
