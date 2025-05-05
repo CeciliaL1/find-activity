@@ -40,7 +40,7 @@ export const formatOpeningHours = (open: string[]) => {
       return `${dayPart}: Stängt`;
     }
     if (timePart.toLowerCase().includes("open 24 hours")) {
-      return `${dayPart}: Öppet 24H dygnet`;
+      return `${dayPart}: 24H om dygnet`;
     }
 
     timePart = timePart.replace(/\s*–\s*/g, "–");
