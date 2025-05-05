@@ -23,8 +23,8 @@ export const Main = styled.main<IMainProps>`
   max-width: ${(props) => props.width};
   align-items: center;
   text-align: center;
-  min-height: 100vh;
+
   margin: auto;
-  margin-top: 32px;
+  margin-top: 40px;
   margin-bottom: 100px;
 `;
