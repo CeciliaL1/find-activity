@@ -14,7 +14,9 @@ export const formatOpeningHours = (open: string[]) => {
     const match = time.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
     if (!match) return time;
 
+    // eslint-disable-next-line
     const [_, hourStr, minute, meridian] = match;
+
     let hour = parseInt(hourStr, 10);
 
     if (meridian.toUpperCase() === "PM" && hour < 12) hour += 12;

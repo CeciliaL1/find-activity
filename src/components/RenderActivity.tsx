@@ -26,6 +26,7 @@ export const RenderActivity = () => {
   const onMapLoad = (map: google.maps.Map) => {
     mapRef.current = map;
     fetchPlaceDetails();
+    calculateDirections();
   };
 
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
@@ -57,8 +58,16 @@ export const RenderActivity = () => {
   );
 
   useEffect(() => {
-    const calculateDirections = () => {
-      if (!mapRef.current) return;
+    if (placeDetails && placeDetails?.opening_hours?.weekday_text) {
+      const open = placeDetails.opening_hours.weekday_text;
+      const formattedTime = formatOpeningHours(open);
+      setOpenHours(formattedTime);
+    }
+  }, [placeDetails]);
+
+  const calculateDirections = () => {
+    if (mapRef.current) {
+      console.log("hämta dir");
       const directionsService = new google.maps.DirectionsService();
 
       directionsService.route(
@@ -81,21 +90,8 @@ export const RenderActivity = () => {
           }
         }
       );
-    };
-
-    if (searchCenter && center) {
-      calculateDirections();
     }
-  }, [searchCenter, center]);
-  useEffect(() => {
-    if (placeDetails && placeDetails?.opening_hours?.weekday_text) {
-      const open = placeDetails.opening_hours.weekday_text;
-      const formattedTime = formatOpeningHours(open);
-      console.log(formattedTime);
-      setOpenHours(formattedTime);
-    }
-  }, [placeDetails]);
-
+  };
   const fetchPlaceDetails = () => {
     if (!mapRef.current || !activity.place_id) return;
 
