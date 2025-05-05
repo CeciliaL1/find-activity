@@ -108,7 +108,7 @@ export const Start = () => {
           }
           if (search.location.lat != 0 && search.location.lng != 0) {
             setTextMessage(`
-    Den ${response.forecastDays[0].interval.startTime} ska det vara
+    Idag är max temperaturen
     ${response.forecastDays[0].maxTemperature.degrees}°. Det är ${response.forecastDays[0].daytimeForecast.precipitation.probability.percent}% chans för nederbörd.
     Dessa aktiviteter är anpassade efter din filtrering.
   `);
