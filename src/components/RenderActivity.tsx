@@ -11,8 +11,9 @@ import {
 } from "@react-google-maps/api";
 import { SearchContext } from "../context/SearchContext";
 import { Main } from "./styled/StyledLayouts";
-import { Rating } from "./Rating";
+
 import { formatOpeningHours } from "../helperfunctions/formatOpeningHours";
+import { ActivityPresentation } from "./AcitivityPresentation";
 
 export const RenderActivity = () => {
   const { search } = useContext(SearchContext);
@@ -32,7 +33,7 @@ export const RenderActivity = () => {
   const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [placeDetails, setPlaceDetails] =
     useState<google.maps.places.PlaceResult | null>(null);
-  const [photoUrl, setPhotoUrl] = useState("");
+  const [photoUrl, setPhotoUrl] = useState<string>("");
 
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
@@ -67,7 +68,6 @@ export const RenderActivity = () => {
 
   const calculateDirections = () => {
     if (mapRef.current) {
-      console.log("hämta dir");
       const directionsService = new google.maps.DirectionsService();
 
       directionsService.route(
@@ -129,65 +129,13 @@ export const RenderActivity = () => {
       <Link to="/">Tillbaka</Link>
       <Main width="1500px">
         <StyledActivityWrapper direction="row" gap="32px">
-          <div className="text-content-wrapper">
-            <div className="first-text-section">
-              <div className="link-wrapper">
-                {placeDetails && placeDetails.website && (
-                  <a href={placeDetails.website}>
-                    <img
-                      src="/external-link-svgrepo-com.svg"
-                      alt=""
-                      width="25px"
-                      height="25px"
-                    />
-                    <h3>{activity.name}</h3>
-                  </a>
-                )}
-              </div>
-            </div>
-            <div>
-              {" "}
-              {activity.rating ? (
-                <Rating rating={activity.rating}></Rating>
-              ) : (
-                ""
-              )}
-            </div>
-
-            <div>
-              {distance && (
-                <p>
-                  Avstånd till {activity.name}: {distance}
-                </p>
-              )}
-            </div>
-            <p>
-              {activity.formatted_address
-                ? activity.formatted_address
-                : activity.vicinity}
-            </p>
-            <div>
-              <img
-                src={photoUrl ? photoUrl : activity.name}
-                alt={activity.name}
-                width="auto"
-                height="300px"
-              />
-            </div>
-          </div>
-
-          <div className="opening-hours">
-            {placeDetails && placeDetails.opening_hours?.weekday_text && (
-              <>
-                <strong>Öppettider:</strong>
-                <ul>
-                  {openHours.map((day, index) => (
-                    <li key={index}>{day}</li>
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
+          <ActivityPresentation
+            activity={activity}
+            placeDetails={placeDetails}
+            openHours={openHours}
+            distance={distance}
+            photoUrl={photoUrl}
+          />
 
           <LoadScript
             googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
