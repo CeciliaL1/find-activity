@@ -87,6 +87,8 @@ export const StyledActivityWrapper = styled.div<IWrapperProps>`
         gap: 4px;
         color: black;
         height: 32px;
+        max-width: 400px;
+        margin-bottom: 16px;
 
         &:hover {
           font-size: 1.1rem;
