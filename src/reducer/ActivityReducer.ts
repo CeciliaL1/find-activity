@@ -15,7 +15,6 @@ export const ActivityReducer = (
       return [...activities, ...newActivities];
     }
 
-    // other cases...
     default:
       return activities;
   }

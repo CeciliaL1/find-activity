@@ -6,7 +6,6 @@ import {
   LoadScript,
   GoogleMap,
   Marker,
-  InfoWindow,
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import { SearchContext } from "../context/SearchContext";
@@ -30,7 +29,6 @@ export const RenderActivity = () => {
     calculateDirections();
   };
 
-  const [infoWindowOpen, setInfoWindowOpen] = useState(false);
   const [placeDetails, setPlaceDetails] =
     useState<google.maps.places.PlaceResult | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string>("");
@@ -159,23 +157,8 @@ export const RenderActivity = () => {
                   lng: location.lng(),
                 }}
                 title={activity.name}
-                onMouseOver={() => {
-                  setInfoWindowOpen(true);
-                }}
               />
-              {infoWindowOpen && placeDetails && (
-                <InfoWindow
-                  position={center}
-                  onCloseClick={() => setInfoWindowOpen(false)}
-                  options={{
-                    pixelOffset: new google.maps.Size(0, -30),
-                  }}
-                >
-                  <div style={{ maxWidth: "300px" }}>
-                    <h4>{placeDetails.name}</h4>
-                  </div>
-                </InfoWindow>
-              )}
+
               <Marker position={searchCenter} title="Din plats"></Marker>
               {directions && (
                 <DirectionsRenderer
