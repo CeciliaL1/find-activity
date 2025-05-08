@@ -11,7 +11,10 @@ export const Router = createBrowserRouter([
     errorElement: <NotFound></NotFound>,
     children: [
       { path: "/", element: <Start></Start> },
-      { path: "/:id", element: <RenderActivity></RenderActivity> },
+      {
+        path: "/:placeId/:weather/:lat/:lng",
+        element: <RenderActivity></RenderActivity>,
+      },
     ],
   },
 ]);
