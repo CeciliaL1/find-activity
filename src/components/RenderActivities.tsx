@@ -1,12 +1,18 @@
 import { Link } from "react-router";
 import { Rating } from "./Rating";
 import { StyledActivitiesWrapper, StyledWrapper } from "./styled/StyledWrapper";
+import { useContext } from "react";
+
+import { SearchContext } from "../context/SearchContext";
+import { WeatherContext } from "../context/WeatherContext";
 
 export interface IActivities {
   activities: google.maps.places.PlaceResult[];
 }
 
 export const RenderActivities = ({ activities }: IActivities) => {
+  const { search } = useContext(SearchContext);
+  const { weather } = useContext(WeatherContext);
   activities.sort((a, b) => {
     const aRating = a?.rating ?? 0;
     const bRating = b?.rating ?? 0;
@@ -24,7 +30,11 @@ export const RenderActivities = ({ activities }: IActivities) => {
           <div>
             <img src={a.icon} alt={a.name} width="20px" height="20px" />
             <h4>
-              <Link to={`/${index}`}>{a.name}</Link>
+              <Link
+                to={`/${a.place_id}/${weather.forecastDays[0].daytimeForecast.precipitation.probability.percent}/${search.location.lat}/${search.location.lng}`}
+              >
+                {a.name}
+              </Link>
             </h4>
           </div>
           <div>{a.rating ? <Rating rating={a.rating}></Rating> : ""}</div>

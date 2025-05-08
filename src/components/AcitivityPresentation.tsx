@@ -1,7 +1,7 @@
 import { Rating } from "./Rating";
 
 interface IActivityPresentationProps {
-  activity: google.maps.places.PlaceResult;
+  activity: google.maps.places.PlaceResult | undefined;
   placeDetails: google.maps.places.PlaceResult | null;
   distance: string | null;
   photoUrl: string;
@@ -15,6 +15,7 @@ export const ActivityPresentation = ({
   photoUrl,
   openHours,
 }: IActivityPresentationProps) => {
+  if (!activity) return; // add error message when no activity found
   return (
     <>
       <div className="text-content-wrapper">
