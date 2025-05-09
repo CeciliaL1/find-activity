@@ -16,8 +16,6 @@ import { formatOpeningHours } from "../helperfunctions/formatOpeningHours";
 import { ActivityPresentation } from "./AcitivityPresentation";
 
 export const RenderActivity = () => {
-  console.log("API Key:", import.meta.env.VITE_GOOGLE_API_KEY);
-
   const { placeId } = useParams<{ placeId: string }>();
   const { weather } = useParams<{ weather: string }>();
   const { lat } = useParams<{ lat: string }>();
@@ -39,13 +37,11 @@ export const RenderActivity = () => {
     mapRef.current = map;
     getActivities(mapRef.current);
     fetchPlaceDetails();
-    calculateDirections();
   };
 
   const originLocation = useMemo(() => {
     return { lat: Number(lat), lng: Number(lng) };
   }, [lat, lng]);
-  console.log(originLocation);
 
   const searchCenter = useMemo(() => {
     if (!activity || activity === undefined || !activity.geometry?.location) {
@@ -60,7 +56,6 @@ export const RenderActivity = () => {
       lng: activity.geometry.location.lng?.() ?? Number(lng),
     };
   }, [lat, lng, activity]);
-  console.log(searchCenter);
 
   const fetchSunPlaces = useCallback(
     async (
@@ -69,10 +64,6 @@ export const RenderActivity = () => {
     ) => {
       try {
         const results = await getActivitiesSun(service, center);
-        console.log(
-          "Available places:",
-          results.map((p) => p.place_id)
-        );
         const currentResult = results.find(
           (place) => place.place_id === placeId
         );
@@ -107,7 +98,6 @@ export const RenderActivity = () => {
   const getActivities = useCallback(
     async (mapRef: google.maps.Map) => {
       if (!mapRef || !placeId) {
-        console.log("no map");
         return;
       }
 
@@ -172,7 +162,6 @@ export const RenderActivity = () => {
     }
   }, [searchCenter, originLocation]);
 
-  console.log(directions);
   useEffect(() => {
     if (placeDetails && placeDetails?.opening_hours?.weekday_text) {
       const open = placeDetails.opening_hours.weekday_text;
@@ -181,6 +170,15 @@ export const RenderActivity = () => {
     }
   }, [placeDetails, weather, fetchSunPlaces, fetchRainPlaces]);
 
+  useEffect(() => {
+    if (
+      activity &&
+      activity.geometry?.location?.lat() &&
+      activity.geometry?.location?.lng()
+    ) {
+      calculateDirections();
+    }
+  }, [activity, calculateDirections]);
   return (
     <>
       <Link to="/">Tillbaka</Link>
@@ -219,6 +217,14 @@ export const RenderActivity = () => {
                 title={activity?.name}
               />
               <Marker position={originLocation} title="Din plats" />
+              {directions && (
+                <DirectionsRenderer
+                  directions={directions}
+                  options={{
+                    suppressMarkers: true,
+                  }}
+                />
+              )}
             </GoogleMap>
           </LoadScript>
         </StyledActivityWrapper>
