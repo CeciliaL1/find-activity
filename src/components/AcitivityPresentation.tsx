@@ -6,7 +6,7 @@ interface IActivityPresentationProps {
   distance: string | null;
   photoUrl: string;
   openHours: string[];
-  duration: string | null;
+  duration: string | null | undefined;
 }
 
 export const ActivityPresentation = ({
