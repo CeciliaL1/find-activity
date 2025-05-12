@@ -31,6 +31,7 @@ export const RenderActivity = () => {
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
   const [distance, setDistance] = useState<string | null>(null);
+  const [duration, setDuration] = useState<string | null>();
   const [openHours, setOpenHours] = useState<string[]>([]);
 
   const onMapLoad = (map: google.maps.Map) => {
@@ -153,6 +154,8 @@ export const RenderActivity = () => {
           if (status === google.maps.DirectionsStatus.OK) {
             setDirections(result);
             const distanceText = result?.routes[0].legs[0]?.distance?.text;
+            const durationText = result?.routes[0].legs[0]?.duration?.text;
+            setDuration(durationText ?? null);
             setDistance(distanceText ?? null);
           } else {
             console.error("Error fetching directions:", status);
@@ -190,6 +193,7 @@ export const RenderActivity = () => {
             openHours={openHours}
             distance={distance}
             photoUrl={photoUrl}
+            duration={duration}
           />
 
           <LoadScript
