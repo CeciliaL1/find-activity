@@ -6,6 +6,7 @@ interface IActivityPresentationProps {
   distance: string | null;
   photoUrl: string;
   openHours: string[];
+  duration: string | null;
 }
 
 export const ActivityPresentation = ({
@@ -14,8 +15,9 @@ export const ActivityPresentation = ({
   distance,
   photoUrl,
   openHours,
+  duration,
 }: IActivityPresentationProps) => {
-  if (!activity) return; // add error message when no activity found
+  if (!activity) return;
   return (
     <>
       <div className="text-content-wrapper">
@@ -41,9 +43,12 @@ export const ActivityPresentation = ({
 
         <div>
           {distance && (
-            <p>
-              Avstånd till {activity.name}: {distance}
-            </p>
+            <>
+              <p>
+                Avstånd till {activity.name}: {distance}
+              </p>
+              <p>Körtid: {duration?.replace("s", "")}</p>
+            </>
           )}
         </div>
         <p>
