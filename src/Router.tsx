@@ -3,6 +3,7 @@ import { Layout } from "./views/Layout";
 import { NotFound } from "./views/NotFound";
 import { Start } from "./views/Start";
 import { RenderActivity } from "./components/RenderActivity";
+import { Favorites } from "./views/Favorites";
 
 export const Router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ export const Router = createBrowserRouter([
       {
         path: "/:placeId/:weather/:lat/:lng",
         element: <RenderActivity></RenderActivity>,
+      },
+      {
+        path: "/favorites",
+        element: <Favorites />,
       },
     ],
   },
