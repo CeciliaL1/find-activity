@@ -22,3 +22,15 @@ export const StyledSearchButton = styled.button`
     left: 130px;
   }
 `;
+
+export const StyledFavoriteButton = styled.button`
+  height: 35px;
+  width: 35px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  i {
+    font-size: 1.4rem;
+  }
+`;

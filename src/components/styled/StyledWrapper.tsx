@@ -49,6 +49,7 @@ export const StyledActivitiesWrapper = styled.div<IActivitesWrapperProps>`
     &:nth-child(1) {
       display: flex;
       flex-direction: row;
+      justify-content: space-between;
     }
   }
 `;
