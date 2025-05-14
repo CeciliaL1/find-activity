@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
 
-import { StyledActivityWrapper } from "./styled/StyledWrapper";
+import { StyledActivityWrapper, StyledWrapper } from "./styled/StyledWrapper";
 import {
   LoadScript,
   GoogleMap,
@@ -184,7 +184,11 @@ export const RenderActivity = () => {
   }, [activity, calculateDirections]);
   return (
     <>
-      <Link to="/">Tillbaka</Link>
+      <StyledWrapper direction="row" justify="space-around" gap="30px">
+        <Link to="/">Tillbaka</Link>
+        <Link to="/favorites">Favoriter</Link>
+      </StyledWrapper>
+
       <Main width="1500px">
         <StyledActivityWrapper direction="row" gap="32px">
           <ActivityPresentation
