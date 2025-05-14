@@ -15,8 +15,7 @@ import { getActivitiesSun } from "../helperfunctions/getActivitiesSun";
 import { getActivitiesRain } from "../helperfunctions/getActivitiesRain";
 import { RenderActivities } from "../components/RenderActivities";
 import { ActivitiesEnum, ActivityContext } from "../context/ActivitiesContext";
-import { Favorites } from "./Favorites";
-import { Link, NavLink } from "react-router";
+import { Link } from "react-router";
 
 export const Start = () => {
   const { search } = useContext(SearchContext);
@@ -141,7 +140,8 @@ export const Start = () => {
 
   return (
     <>
-      <Link to="/favorites">Favoriter</Link>
+      {search.search && <Link to="/favorites">Favoriter</Link>}
+
       <h5>
         {search.search
           ? loadingWeather
