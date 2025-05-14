@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { WeatherContext } from "../context/WeatherContext";
 import { StyledFavoriteButton } from "./styled/StyledButtons";
+import { getLocalStorage } from "../helperfunctions/getLocalStorage";
 
 export interface IActivities {
   activities: google.maps.places.PlaceResult[];
@@ -14,8 +15,9 @@ export interface IActivities {
 export const RenderActivities = ({ activities }: IActivities) => {
   const { search } = useContext(SearchContext);
   const { weather } = useContext(WeatherContext);
+  const storedFavorites = getLocalStorage<string[]>("favorites");
 
-  const [favorites, setfavorites] = useState<string[]>([]);
+  const [favorites, setfavorites] = useState<string[]>(storedFavorites);
   activities.sort((a, b) => {
     const aRating = a?.rating ?? 0;
     const bRating = b?.rating ?? 0;
