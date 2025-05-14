@@ -1,3 +1,13 @@
+import { Link } from "react-router";
+import { getLocalStorage } from "../helperfunctions/getLocalStorage";
+
 export const Favorites = () => {
-  return <>favorites</>;
+  const favorites = getLocalStorage<string[]>("favorites");
+
+  console.log(favorites);
+  return (
+    <>
+      <Link to="/">Tillbaka</Link>
+    </>
+  );
 };
