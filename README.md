@@ -1,12 +1,20 @@
 # FindFun
+## Table of Contents
+- [Description](#description)
+- [Author](#author)
+- [Built With](#project-built-with)
+- [Wireframes](#wireframes)
+- [Getting Started](#start-project)
+- [Dependencies](#dependencies)
 
-## Description
-Find fun is an activity generator that will search after activitys based on your location and the local weather. You can create a list of your favorite activitys and share it with your friends.
+### Description
+FindFun is an activity generator that suggests activities based on your location and the local weather.
+You can create a list of your favorite activities and share it with friends.
 
-## Author
+### Author
 [@CeciliaL1](https://github.com/CeciliaL1)
 
-## Project built with
+### Built with
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -15,19 +23,19 @@ Find fun is an activity generator that will search after activitys based on your
 
 
 
-## Wireframes
+### Wireframes
 ![Skärmbild 2025-04-03 105137](https://github.com/user-attachments/assets/df76a7f1-c6c5-4f68-95c0-5f075e85df23)
 ![Skärmbild 2025-04-03 105145](https://github.com/user-attachments/assets/458ae860-670e-4b31-8532-eb3f544ea5cf)
 ![Skärmbild 2025-04-03 105006](https://github.com/user-attachments/assets/04cb9aef-e961-416f-878a-021b65b1aab3)
 
 
-## Start project
+### Getting started
 
 ```
 npm install
 ```
 
-## Dependencies
+### Dependencies
 - Axios
 - styled-components
 - @react-google-maps/api
